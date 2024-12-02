@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
 import { Link } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setEmail,
   setError,

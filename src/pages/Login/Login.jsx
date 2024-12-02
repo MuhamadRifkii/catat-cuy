@@ -1,28 +1,34 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
-import { useState } from "react";
 import { validateEmail } from "../../utils/helper";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setEmail,
+  setError,
+  setPassword,
+} from "../../store/actions/signUp.action";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const { email, password, error } = useSelector(
+    (state) => state.signUpReducer
+  );
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      setError("Masukkan alamat email yang valid");
+      dispatch(setError("Masukkan alamat email yang valid"));
       return;
     }
 
     if (!password) {
-      setError("Password tidak boleh kosong");
+      dispatch(setError("Password tidak boleh kosong"));
       return;
     }
 
-    setError("");
+    dispatch(setError(""));
 
     //Login API call
   };
@@ -41,12 +47,12 @@ function Login() {
               placeholder="Email"
               className="input-container"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 
             <Password
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => dispatch(setPassword(e.target.value))}
             />
 
             {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
