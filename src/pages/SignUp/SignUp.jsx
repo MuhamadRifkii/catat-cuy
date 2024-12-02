@@ -1,34 +1,40 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
 import { Link } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
+import {
+  setEmail,
+  setError,
+  setName,
+  setPassword,
+} from "../../store/actions/signUp.action";
 
 export default function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const { name, email, password, error } = useSelector(
+    (state) => state.signUpReducer
+  );
+  const dispatch = useDispatch();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
     if (!name) {
-      setError("Nama tidak boleh kosong");
+      dispatch(setError("Nama tidak boleh kosong"));
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Masukkan alamat email yang valid");
+      dispatch(setError("Masukkan alamat email yang valid"));
       return;
     }
 
     if (!password) {
-      setError("Password tidak boleh kosong");
+      dispatch(setError("Password tidak boleh kosong"));
       return;
     }
 
-    setError("");
+    dispatch(setError(""));
 
     //Signup API call
   };
@@ -46,7 +52,7 @@ export default function SignUp() {
               placeholder="Nama"
               className="input-container"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => dispatch(setName(e.target.value))}
             />
 
             <input
@@ -54,12 +60,12 @@ export default function SignUp() {
               placeholder="Email"
               className="input-container"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 
             <Password
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => dispatch(setPassword(e.target.value))}
             />
 
             {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
