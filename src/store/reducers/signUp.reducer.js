@@ -17,6 +17,8 @@ const signUpReducer = (state = initState, action) => {
       return { ...state, password: action.payload };
     case actionTypes.SET_ERROR:
       return { ...state, error: action.payload };
+    case actionTypes.RESET:
+      return { ...initState };
     default:
       return state;
   }

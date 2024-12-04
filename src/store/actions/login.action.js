@@ -12,6 +12,10 @@ export const setPassword = (password) => ({
   payload: password,
 });
 
+export const resetForm = () => ({
+  type: actionTypes.RESET,
+});
+
 export const setError = (error) => ({
   type: actionTypes.SET_ERROR,
   payload: error,

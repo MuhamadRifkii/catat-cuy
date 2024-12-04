@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  resetForm,
   setEmail,
   setError,
   setName,
@@ -45,6 +46,10 @@ export default function SignUp() {
     }
   };
 
+  const handleReset = () => {
+    dispatch(resetForm());
+  };
+
   return (
     <>
       <Navbar />
@@ -82,7 +87,11 @@ export default function SignUp() {
 
             <p className="text-sm text-center mt-4">
               Sudah punya akun?{" "}
-              <Link to="/login" className="font-medium text-primary underline">
+              <Link
+                to="/login"
+                className="font-medium text-primary underline"
+                onClick={handleReset}
+              >
                 Masuk akun
               </Link>
             </p>

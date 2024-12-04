@@ -9,6 +9,7 @@ import {
   setError,
   setPassword,
 } from "../../store/actions/login.action";
+import { resetForm } from "../../store/actions/signUp.action";
 
 function Login() {
   const { email, password, error } = useSelector((state) => state.loginReducer);
@@ -35,6 +36,10 @@ function Login() {
     } catch (error) {
       console.error("Failed to sign up:", error);
     }
+  };
+
+  const handleReset = () => {
+    dispatch(resetForm());
   };
 
   return (
@@ -67,7 +72,11 @@ function Login() {
 
             <p className="text-sm text-center mt-4">
               Belum punya akun?{" "}
-              <Link to="/signup" className="font-medium text-primary underline">
+              <Link
+                to="/signup"
+                className="font-medium text-primary underline"
+                onClick={handleReset}
+              >
                 Buat akun
               </Link>
             </p>
