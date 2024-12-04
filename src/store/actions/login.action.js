@@ -1,5 +1,7 @@
 import { actionTypes } from "../actionTypes";
 
+const baseUrl = `http://localhost:3001/api/v1/auth/login`;
+
 export const setEmail = (email) => ({
   type: actionTypes.SET_EMAIL,
   payload: email,
@@ -15,26 +17,26 @@ export const setError = (error) => ({
   payload: error,
 });
 
-// export const signUpUser = (name, email, password) => {
-//   return async (dispatch) => {
-//     try {
-//       const response = await fetch("/api/signup", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ name, email, password }),
-//       });
+export const loginUser = (email, password) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(baseUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         dispatch(setSignUpError(errorData.message || "Sign-up failed"));
-//         return;
-//       }
+      if (!response.ok) {
+        const errorData = await response.json();
+        dispatch(setError(errorData.message || "Login failed"));
+        return;
+      }
 
-//       const data = await response.json();
-//       console.log("Sign-up successful:", data);
-//       dispatch(setSignUpError(null)); // Clear error on success
-//     } catch (error) {
-//       dispatch(setSignUpError("Network error: Unable to sign up"));
-//     }
-//   };
-// };
+      const data = await response.json();
+      console.log("Login successful:", data);
+      dispatch(setError(null)); // Clear error on success
+    } catch {
+      dispatch(setError("Network error: Unable to login"));
+    }
+  };
+};

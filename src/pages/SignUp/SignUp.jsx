@@ -1,6 +1,6 @@
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,6 +8,7 @@ import {
   setError,
   setName,
   setPassword,
+  signUpUser,
 } from "../../store/actions/signUp.action";
 
 export default function SignUp() {
@@ -15,6 +16,7 @@ export default function SignUp() {
     (state) => state.signUpReducer
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -35,8 +37,12 @@ export default function SignUp() {
     }
 
     dispatch(setError(""));
-
-    //Signup API call
+    try {
+      await dispatch(signUpUser(name, email, password)); // Wait for sign-up to complete
+      navigate("/dashboard"); // Navigate to the dashboard
+    } catch (error) {
+      console.error("Failed to sign up:", error);
+    }
   };
 
   return (

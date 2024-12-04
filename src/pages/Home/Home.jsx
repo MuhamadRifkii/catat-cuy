@@ -15,12 +15,12 @@ export default function Home() {
     <>
       <Navbar />
 
-      <div className="container mx-auto">
-        <div className="grid grid-cols-3 gap-4 mt-8 ">
+      <div className="container mx-auto mt-8 px-4">
+        <div className="grid grid-cols-3 gap-4 mt-8">
           <NoteCard
-            title="Meeting on 7th April"
-            date="3rd April 2024"
-            content="Meeting on 7th April Meeting on 7th April"
+            title="Test"
+            date="04 Dec 2024"
+            content="Test"
             isPinned={true}
             onEdit={() => {}}
             onDelete={() => {}}

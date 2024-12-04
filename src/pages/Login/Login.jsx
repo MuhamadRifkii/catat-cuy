@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  loginUser,
   setEmail,
   setError,
   setPassword,
-} from "../../store/actions/signUp.action";
+} from "../../store/actions/login.action";
 
 function Login() {
-  const { email, password, error } = useSelector(
-    (state) => state.signUpReducer
-  );
+  const { email, password, error } = useSelector((state) => state.loginReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,8 +29,12 @@ function Login() {
     }
 
     dispatch(setError(""));
-
-    //Login API call
+    try {
+      await dispatch(loginUser(name, email, password)); // Wait for sign-up to complete
+      navigate("/dashboard"); // Navigate to the dashboard
+    } catch (error) {
+      console.error("Failed to sign up:", error);
+    }
   };
 
   return (
