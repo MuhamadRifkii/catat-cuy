@@ -31,10 +31,15 @@ function Login() {
 
     dispatch(setError(""));
     try {
-      await dispatch(loginUser(name, email, password)); // Wait for sign-up to complete
-      navigate("/dashboard"); // Navigate to the dashboard
+      const result = await dispatch(loginUser(email, password));
+      if (result?.success) {
+        navigate("/dashboard");
+      } else {
+        dispatch(setError("Login failed. Please try again."));
+      }
     } catch (error) {
-      console.error("Failed to sign up:", error);
+      console.error("Failed to login:", error);
+      dispatch(setError("Network error: Unable to login"));
     }
   };
 

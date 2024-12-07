@@ -1,6 +1,6 @@
 import { actionTypes } from "../actionTypes";
 
-const baseUrl = `http://localhost:3001/api/v1/auth/signup`;
+const baseUrl = `http://localhost:3001/register`;
 
 export const setName = (name) => ({
   type: actionTypes.SET_NAME,
@@ -32,7 +32,7 @@ export const signUpUser = (name, email, password) => {
       const response = await fetch(baseUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nama: name, email, password }), //TODO: fix backend, API requires 'nama'
+        body: JSON.stringify({ name, email, password }),
       });
 
       if (!response.ok) {
@@ -43,7 +43,8 @@ export const signUpUser = (name, email, password) => {
 
       const data = await response.json();
       console.log("Sign-up successful:", data);
-      dispatch(setError(null)); // Clear error on success
+      dispatch(setError(null));
+      return { success: true, data };
     } catch {
       dispatch(setError("Network error: Unable to sign up"));
     }

@@ -39,10 +39,15 @@ export default function SignUp() {
 
     dispatch(setError(""));
     try {
-      await dispatch(signUpUser(name, email, password)); // Wait for sign-up to complete
-      navigate("/dashboard"); // Navigate to the dashboard
+      const result = await dispatch(signUpUser(name, email, password));
+      if (result?.success) {
+        navigate("/dashboard");
+      } else {
+        dispatch(setError("Sign-up failed. Please try again."));
+      }
     } catch (error) {
       console.error("Failed to sign up:", error);
+      dispatch(setError("Network error: Unable to sign up"));
     }
   };
 

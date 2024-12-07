@@ -1,6 +1,6 @@
 import { actionTypes } from "../actionTypes";
 
-const baseUrl = `http://localhost:3001/api/v1/auth/login`;
+const baseUrl = `http://localhost:3001/login`;
 
 export const setEmail = (email) => ({
   type: actionTypes.SET_EMAIL,
@@ -38,7 +38,8 @@ export const loginUser = (email, password) => {
 
       const data = await response.json();
       console.log("Login successful:", data);
-      dispatch(setError(null)); // Clear error on success
+      dispatch(setError(null));
+      return { success: true, data };
     } catch {
       dispatch(setError("Network error: Unable to login"));
     }
