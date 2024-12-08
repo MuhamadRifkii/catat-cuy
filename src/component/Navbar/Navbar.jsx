@@ -2,12 +2,17 @@ import { useNavigate } from "react-router-dom";
 import Profile from "../Cards/Profile";
 import Searchbar from "../Searchbar/Searchbar";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { resetForm } from "../../store/actions/login.action";
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const logout = () => {
+    dispatch(resetForm());
+    localStorage.clear();
     navigate("/login");
   };
 

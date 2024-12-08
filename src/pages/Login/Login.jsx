@@ -47,26 +47,6 @@ function Login() {
         dispatch(setError("Unknown Error"));
       }
     }
-
-    /* Alternate login using axios */
-
-    // try {
-    //   const response = await axiosInstance.post("/login" , {
-    //     email: email,
-    //     password: password
-    //   })
-
-    //   if (response.data && response.data.token) {
-    //     localStorage.setItem("token", response.data.token)
-    //     navigate("/dashboard");
-    //   }
-    // } catch (error) {
-    //   if (error.response && error.response.data && error.response.data.message) {
-    //     setError(error.response.data.message)
-    //   } else {
-    //     setError("Unknown Error")
-    //   }
-    // }
   };
 
   const handleReset = () => {
