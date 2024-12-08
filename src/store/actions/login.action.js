@@ -1,6 +1,6 @@
 import { actionTypes } from "../actionTypes";
 
-const baseUrl = `http://localhost:3001/login`;
+const baseUrl = `http://localhost:3001/api/v1/auth/login`;
 
 export const setEmail = (email) => ({
   type: actionTypes.SET_EMAIL,

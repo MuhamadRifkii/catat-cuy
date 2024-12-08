@@ -1,6 +1,6 @@
 import { actionTypes } from "../actionTypes";
 
-const baseUrl = `http://localhost:3001/register`;
+const baseUrl = `http://localhost:3001/api/v1/auth/register`;
 
 export const setName = (name) => ({
   type: actionTypes.SET_NAME,

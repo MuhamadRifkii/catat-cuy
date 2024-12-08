@@ -41,13 +41,19 @@ export default function SignUp() {
     try {
       const result = await dispatch(signUpUser(name, email, password));
       if (result?.success) {
+        localStorage.setItem("token", result.data.token);
         navigate("/dashboard");
-      } else {
-        dispatch(setError("Sign-up failed. Please try again."));
       }
     } catch (error) {
-      console.error("Failed to sign up:", error);
-      dispatch(setError("Network error: Unable to sign up"));
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        dispatch(setError(error.response.data.message));
+      } else {
+        dispatch(setError("Unknown Error"));
+      }
     }
   };
 

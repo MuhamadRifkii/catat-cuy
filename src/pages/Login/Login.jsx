@@ -33,14 +33,40 @@ function Login() {
     try {
       const result = await dispatch(loginUser(email, password));
       if (result?.success) {
+        localStorage.setItem("token", result.data.token);
         navigate("/dashboard");
-      } else {
-        dispatch(setError("Login failed. Please try again."));
       }
     } catch (error) {
-      console.error("Failed to login:", error);
-      dispatch(setError("Network error: Unable to login"));
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        dispatch(setError(error.response.data.message));
+      } else {
+        dispatch(setError("Unknown Error"));
+      }
     }
+
+    /* Alternate login using axios */
+
+    // try {
+    //   const response = await axiosInstance.post("/login" , {
+    //     email: email,
+    //     password: password
+    //   })
+
+    //   if (response.data && response.data.token) {
+    //     localStorage.setItem("token", response.data.token)
+    //     navigate("/dashboard");
+    //   }
+    // } catch (error) {
+    //   if (error.response && error.response.data && error.response.data.message) {
+    //     setError(error.response.data.message)
+    //   } else {
+    //     setError("Unknown Error")
+    //   }
+    // }
   };
 
   const handleReset = () => {
