@@ -1,6 +1,6 @@
 import { actionTypes } from "../actionTypes";
 
-const baseUrl = `http://localhost:3001/api/v1/auth/register`;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const setName = (name) => ({
   type: actionTypes.SET_NAME,
@@ -29,7 +29,7 @@ export const setError = (error) => ({
 export const signUpUser = (name, email, password) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(baseUrl, {
+      const response = await fetch(`${baseUrl}/api/v2/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
