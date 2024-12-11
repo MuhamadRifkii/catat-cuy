@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import Profile from "../Cards/Profile";
 import Searchbar from "../Searchbar/Searchbar";
@@ -5,7 +6,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { resetForm } from "../../store/actions/login.action";
 
-export default function Navbar() {
+export default function Navbar({ userInfo }) {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ export default function Navbar() {
         onClearSearch={onClearSearch}
       />
 
-      <Profile logout={logout} />
+      <Profile userInfo={userInfo} logout={logout} />
     </div>
   );
 }
