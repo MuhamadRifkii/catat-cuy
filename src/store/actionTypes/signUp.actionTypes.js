@@ -4,4 +4,5 @@ export const signUpActionTypes = {
   SET_PASSWORD: "SET_PASSWORD",
   SET_ERROR: "SET_ERROR",
   RESET: "RESET",
+  SET_LOADING: "SET_LOADING",
 };

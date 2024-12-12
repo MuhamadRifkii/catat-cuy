@@ -26,6 +26,11 @@ export const setError = (error) => ({
   payload: error,
 });
 
+export const setLoading = (isLoading) => ({
+  type: actionTypes.SET_LOADING,
+  payload: isLoading,
+});
+
 export const signUpUser = (name, email, password) => {
   return async (dispatch) => {
     try {

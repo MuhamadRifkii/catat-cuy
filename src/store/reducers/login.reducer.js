@@ -16,6 +16,8 @@ const loginReducer = (state = initState, action) => {
       return { ...state, error: action.payload };
     case actionTypes.RESET:
       return { ...initState };
+    case actionTypes.SET_LOADING:
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
