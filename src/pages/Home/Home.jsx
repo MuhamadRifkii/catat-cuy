@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
+import { useSpring, animated } from "@react-spring/web";
 import { MdAdd } from "react-icons/md";
 import { NoteCard } from "../../component/Cards/NoteCard";
 import Navbar from "../../component/Navbar/Navbar";
 import AddEditNotes from "./AddEditNotes";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -18,14 +18,28 @@ export default function Home() {
 
   const [userInfo, setUserInfo] = useState(null);
   const [allNotes, setAllNotes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const modalAnimation = useSpring({
+    opacity: openAddEditModal.isShown ? 1 : 0,
+    transform: openAddEditModal.isShown ? "scale(1)" : "scale(0.9)",
+    config: { tension: 300, friction: 25 },
+  });
+
+  const LoadingSpinner = useSpring({
+    opacity: isLoading ? 1 : 0,
+    visibility: isLoading ? "visible" : "hidden",
+    config: { duration: 300 },
+  });
 
   const handleEdit = (noteDetails) => {
     setOpenAddModal({ isShown: true, data: noteDetails, type: "edit" });
   };
 
   const getUserInfo = async ({ token }) => {
+    setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}/api/v2/auth/get-user`, {
         method: "GET",
@@ -48,10 +62,13 @@ export default function Home() {
       setUserInfo(data.user);
     } catch (error) {
       console.error("Error fetching user info:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getAllNotes = async ({ token }) => {
+    setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}/api/v2/notes/get-all-notes`, {
         method: "GET",
@@ -70,6 +87,8 @@ export default function Home() {
         localStorage.clear();
         navigate("/login");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,6 +103,12 @@ export default function Home() {
 
   return (
     <>
+      <animated.div
+        style={LoadingSpinner}
+        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      >
+        <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
+      </animated.div>
       <Navbar userInfo={userInfo} />
 
       <div className="container mx-auto mt-8 px-4">
@@ -113,24 +138,30 @@ export default function Home() {
         <MdAdd className="text-[32px] text-white" />
       </button>
 
-      <Modal
-        isOpen={openAddEditModal.isShown}
-        onRequestClose={() => {}}
-        style={{
-          overlay: { backgroundColor: "rgba(0,0,0,0.2)" },
-        }}
-        contentLabel="Add Notes"
-        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
-      >
-        <AddEditNotes
-          type={openAddEditModal.type}
-          noteData={openAddEditModal.data}
-          onClose={() => {
-            setOpenAddModal({ isShown: false, type: "add", data: null });
-          }}
-          getAllNotes={getAllNotes}
-        />
-      </Modal>
+      {openAddEditModal.isShown && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          {/* Animated Modal */}
+          <animated.div
+            style={modalAnimation}
+            className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg"
+          >
+            <button
+              className="absolute top-2 right-2 text-slate-400 hover:text-red-500"
+              onClick={() =>
+                setOpenAddModal({ isShown: false, type: "add", data: null })
+              }
+            />
+            <AddEditNotes
+              type={openAddEditModal.type}
+              noteData={openAddEditModal.data}
+              onClose={() =>
+                setOpenAddModal({ isShown: false, type: "add", data: null })
+              }
+              getAllNotes={getAllNotes}
+            />
+          </animated.div>
+        </div>
+      )}
     </>
   );
 }

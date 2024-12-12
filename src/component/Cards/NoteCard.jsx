@@ -19,10 +19,7 @@ export const NoteCard = ({
       className="border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out cursor-pointer"
       onClick={onClick}
     >
-      <div
-        className="flex items-center justify-between"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="flex items-center justify-between">
         <div>
           <h6 className="text-sm font-medium">{title}</h6>
           <span className="text-xs text-slate-500 ">
@@ -32,16 +29,13 @@ export const NoteCard = ({
 
         <MdOutlinePushPin
           className={`icon-btn ${isPinned ? "text-primary" : "text-slate-300"}`}
-          onClick={onPinNote}
+          onClick={(e) => [onPinNote, e.stopPropagation()]}
         />
       </div>
 
       <p className="text-xs text-slate-600 mt-2 ">{content?.slice(0, 60)}</p>
 
-      <div
-        className="flex items-center justify-between mt-2"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-2 ml-auto">
           <MdCreate
             className="icon-btn hover:text-green-600 "
@@ -50,7 +44,7 @@ export const NoteCard = ({
 
           <MdDelete
             className="icon-btn hover:text-red-500"
-            onClick={onDelete}
+            onClick={(e) => [onDelete, e.stopPropagation()]}
           />
         </div>
       </div>
