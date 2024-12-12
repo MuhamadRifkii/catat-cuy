@@ -1,7 +1,6 @@
 import { actionTypes } from "../actionTypes";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const token = localStorage.getItem("token");
 
 export const setLoading = (isLoading) => ({
   type: actionTypes.SET_LOADING,
@@ -11,7 +10,6 @@ export const setLoading = (isLoading) => ({
 export const setUserInfo = (token) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
-
     try {
       const response = await fetch(`${baseUrl}/api/v2/auth/get-user`, {
         method: "GET",
@@ -42,10 +40,9 @@ export const setUserInfo = (token) => {
   };
 };
 
-export const setAllNotes = () => {
+export const setAllNotes = (token) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
-
     try {
       const response = await fetch(`${baseUrl}/api/v2/notes/get-all-notes`, {
         method: "GET",

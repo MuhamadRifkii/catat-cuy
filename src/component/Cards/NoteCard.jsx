@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import moment from "moment";
-import React from "react";
 import { MdCreate, MdDelete, MdOutlinePushPin } from "react-icons/md";
 
 export const NoteCard = ({

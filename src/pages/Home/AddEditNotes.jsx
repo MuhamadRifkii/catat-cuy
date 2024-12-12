@@ -1,96 +1,40 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useSpring, animated } from "@react-spring/web";
-import { useState } from "react";
+import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
-import { setAllNotes } from "../../store/actions/home.action";
-import { useDispatch } from "react-redux";
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
+import {
+  setTitle,
+  setContent,
+  setError,
+  addNewNote,
+  editNote,
+} from "../../store/actions/addEditNote.action";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AddEditNotes({ noteData, type, onClose }) {
-  const [title, setTitle] = useState(noteData?.title || "");
-  const [content, setContent] = useState(noteData?.content || "");
-  const token = localStorage.getItem("token");
-
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const dispatch = useDispatch();
 
+  const { title, content, error, setIsLoading } = useSelector(
+    (state) => state.noteReducer
+  );
+  const token = localStorage.getItem("token");
+
   const LoadingSpinner = useSpring({
-    opacity: isLoading ? 1 : 0,
-    visibility: isLoading ? "visible" : "hidden",
+    opacity: setIsLoading ? 1 : 0,
+    visibility: setIsLoading ? "visible" : "hidden",
     config: { duration: 300 },
   });
 
-  // Add note
-  const addNewNote = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${baseUrl}/api/v2/notes/add-note`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ title, content }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to add note");
-      }
-
-      if (result.note) {
-        await dispatch(setAllNotes(token));
-        onClose();
-      }
-    } catch (error) {
-      setError(error.message || "An unexpected error occurred");
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    if (noteData) {
+      dispatch(setTitle(noteData.title || ""));
+      dispatch(setContent(noteData.content || ""));
     }
-  };
-
-  // Edit note
-  const editNote = async () => {
-    setIsLoading(true);
-    const noteId = noteData.id;
-    try {
-      const response = await fetch(
-        `${baseUrl}/api/v2/notes/edit-note/` + noteId,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ title, content }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to add note");
-      }
-
-      if (result.note) {
-        await dispatch(setAllNotes(token));
-        onClose();
-      }
-    } catch (error) {
-      setError(error.message || "An unexpected error occurred");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [noteData, dispatch]);
 
   const handleAddNote = () => {
     if (!title) {
-      setError("Masukkan judul");
+      dispatch(setError("Masukkan judul"));
       return;
     }
 
@@ -101,10 +45,10 @@ export default function AddEditNotes({ noteData, type, onClose }) {
 
     setError("");
 
-    if (type === "edit") {
-      editNote();
-    } else {
-      addNewNote();
+    if (type === "edit" && noteData) {
+      dispatch(editNote(noteData.id, title, content, token, onClose));
+    } else if (type === "add") {
+      dispatch(addNewNote(title, content, token, onClose));
     }
   };
   return (
@@ -129,7 +73,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
             className="text-2xl text-slate-950 outline-none"
             placeholder="Title"
             value={title}
-            onChange={({ target }) => setTitle(target.value)}
+            onChange={({ target }) => dispatch(setTitle(target.value))}
           />
         </div>
 
@@ -141,7 +85,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
             placeholder="Content"
             rows={10}
             value={content}
-            onChange={({ target }) => setContent(target.value)}
+            onChange={({ target }) => dispatch(setContent(target.value))}
           />
         </div>
 

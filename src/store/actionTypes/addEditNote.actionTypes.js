@@ -1,0 +1,7 @@
+export const addEditNoteActionTypes = {
+  SET_TITLE: "SET_TITLE",
+  SET_CONTENT: "SET_CONTENT",
+  SET_ERROR: "SET_ERROR",
+  RESET: "RESET",
+  SET_IS_LOADING: "SET_IS_LOADING",
+};
