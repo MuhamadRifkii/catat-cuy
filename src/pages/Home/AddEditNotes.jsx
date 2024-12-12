@@ -3,16 +3,20 @@
 import { useSpring, animated } from "@react-spring/web";
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
+import { setAllNotes } from "../../store/actions/home.action";
+import { useDispatch } from "react-redux";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-export default function AddEditNotes({ noteData, type, getAllNotes, onClose }) {
+export default function AddEditNotes({ noteData, type, onClose }) {
   const [title, setTitle] = useState(noteData?.title || "");
   const [content, setContent] = useState(noteData?.content || "");
   const token = localStorage.getItem("token");
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const LoadingSpinner = useSpring({
     opacity: isLoading ? 1 : 0,
@@ -40,7 +44,7 @@ export default function AddEditNotes({ noteData, type, getAllNotes, onClose }) {
       }
 
       if (result.note) {
-        await getAllNotes({ token });
+        await dispatch(setAllNotes(token));
         onClose();
       }
     } catch (error) {
@@ -74,7 +78,7 @@ export default function AddEditNotes({ noteData, type, getAllNotes, onClose }) {
       }
 
       if (result.note) {
-        await getAllNotes({ token });
+        await dispatch(setAllNotes(token));
         onClose();
       }
     } catch (error) {
