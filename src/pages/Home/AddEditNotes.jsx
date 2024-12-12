@@ -3,17 +3,72 @@
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
 
-export default function AddEditNotes({ noteData, type, onClose }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
+export default function AddEditNotes({ noteData, type, getAllNotes, onClose }) {
+  const [title, setTitle] = useState(noteData?.title || "");
+  const [content, setContent] = useState(noteData?.content || "");
+  const token = localStorage.getItem("token");
 
   const [error, setError] = useState(null);
 
   // Add note
-  const addNewNote = async () => {};
+  const addNewNote = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/api/v2/notes/add-note`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, content }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to add note");
+      }
+
+      if (result.note) {
+        await getAllNotes({ token });
+        onClose();
+      }
+    } catch (error) {
+      setError(error.message || "An unexpected error occurred");
+    }
+  };
 
   // Edit note
-  const editNote = async () => {};
+  const editNote = async () => {
+    const noteId = noteData.id;
+    try {
+      const response = await fetch(
+        `${baseUrl}/api/v2/notes/edit-note/` + noteId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title, content }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to add note");
+      }
+
+      if (result.note) {
+        await getAllNotes({ token });
+        onClose();
+      }
+    } catch (error) {
+      setError(error.message || "An unexpected error occurred");
+    }
+  };
 
   const handleAddNote = () => {
     if (!title) {
@@ -47,7 +102,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
         <input
           type="text"
           className="text-2xl text-slate-950 outline-none"
-          placeholder="Go to gym at ..."
+          placeholder="Title"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
@@ -71,7 +126,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
         className="btn-primary font-medium mt-5 p-3"
         onClick={handleAddNote}
       >
-        ADD
+        {type === "edit" ? "UPDATE" : "ADD"}
       </button>
     </div>
   );

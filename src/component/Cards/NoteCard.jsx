@@ -12,10 +12,17 @@ export const NoteCard = ({
   onEdit,
   onDelete,
   onPinNote,
+  onClick,
 }) => {
   return (
-    <div className="border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out ">
-      <div className="flex items-center justify-between ">
+    <div
+      className="border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out cursor-pointer"
+      onClick={onClick}
+    >
+      <div
+        className="flex items-center justify-between"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div>
           <h6 className="text-sm font-medium">{title}</h6>
           <span className="text-xs text-slate-500 ">
@@ -31,8 +38,11 @@ export const NoteCard = ({
 
       <p className="text-xs text-slate-600 mt-2 ">{content?.slice(0, 60)}</p>
 
-      <div className="flex items-center justify-between mt-2">
-        <div className="flex items-center gap-2">
+      <div
+        className="flex items-center justify-between mt-2"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-2 ml-auto">
           <MdCreate
             className="icon-btn hover:text-green-600 "
             onClick={onEdit}

@@ -6,7 +6,6 @@ import AddEditNotes from "./AddEditNotes";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -22,6 +21,10 @@ export default function Home() {
 
   const navigate = useNavigate();
 
+  const handleEdit = (noteDetails) => {
+    setOpenAddModal({ isShown: true, data: noteDetails, type: "edit" });
+  };
+
   const getUserInfo = async ({ token }) => {
     try {
       const response = await fetch(`${baseUrl}/api/v2/auth/get-user`, {
@@ -30,17 +33,21 @@ export default function Home() {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (response.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+        return;
+      }
+
       if (!response.ok) {
         throw new Error("Failed to get user info");
       }
+
       const data = await response.json();
       setUserInfo(data.user);
     } catch (error) {
       console.error("Error fetching user info:", error);
-      if (error.response?.status === 401) {
-        localStorage.clear();
-        navigate("/login");
-      }
     }
   };
 
@@ -88,9 +95,10 @@ export default function Home() {
               date={item.createdAt}
               content={item.content}
               isPinned={item.isPinned}
-              onEdit={() => {}}
+              onEdit={() => handleEdit(item)}
               onDelete={() => {}}
               onPinNote={() => {}}
+              onClick={() => handleEdit(item)}
             />
           ))}
         </div>
@@ -120,6 +128,7 @@ export default function Home() {
           onClose={() => {
             setOpenAddModal({ isShown: false, type: "add", data: null });
           }}
+          getAllNotes={getAllNotes}
         />
       </Modal>
     </>
