@@ -15,12 +15,8 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
     navigate("/login");
   };
 
-  const handleSearch = () => {
-    // Implement any specific search action if needed
-  };
-
   const onClearSearch = () => {
-    setFilter(""); // Clear the search filter
+    setFilter("");
   };
 
   return (
@@ -29,9 +25,8 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
 
       {userInfo && (
         <Searchbar
-          value={filterValue} // Controlled input for filter value
-          onChange={(e) => setFilter(e.target.value)} // Update the search query
-          handleSearch={handleSearch}
+          value={filterValue}
+          onChange={(e) => setFilter(e.target.value)}
           onClearSearch={onClearSearch}
         />
       )}

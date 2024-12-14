@@ -3,22 +3,21 @@ import { MdAdd } from "react-icons/md";
 import { NoteCard } from "../../component/Cards/NoteCard";
 import Navbar from "../../component/Navbar/Navbar";
 import AddEditNotes from "./AddEditNotes";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAllNotes,
   setUserInfo,
+  setFilter,
   setOpenAddEditModal,
 } from "../../store/actions/home.action";
 import { resetForm } from "../../store/actions/addEditNote.action";
 
 export default function Home() {
-  const { isLoading, userInfo, allNotes, openAddEditModal } = useSelector(
-    (state) => state.homeReducer
-  );
+  const { isLoading, userInfo, allNotes, filter, openAddEditModal } =
+    useSelector((state) => state.homeReducer);
 
-  const [filter, setFilter] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -51,8 +50,10 @@ export default function Home() {
     }
   }, [dispatch, navigate]);
 
-  const filteredNotes = allNotes.filter((note) =>
-    note.title.toLowerCase().includes(filter.toLowerCase())
+  const filteredNotes = allNotes.filter(
+    (note) =>
+      note.title.toLowerCase().includes(filter.toLowerCase()) ||
+      note.content.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
@@ -64,7 +65,11 @@ export default function Home() {
         <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
       </animated.div>
 
-      <Navbar userInfo={userInfo} setFilter={setFilter} filterValue={filter} />
+      <Navbar
+        userInfo={userInfo}
+        setFilter={(value) => dispatch(setFilter(value))}
+        filterValue={filter}
+      />
 
       <div className="container mx-auto my-4 px-4">
         <div className="grid grid-cols-3 gap-4 ">

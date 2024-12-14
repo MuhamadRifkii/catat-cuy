@@ -4,6 +4,7 @@ const initState = {
   userInfo: null,
   allNotes: [],
   isLoading: false,
+  filter: "",
   openAddEditModal: { isShown: false, type: "add", data: null },
 };
 
@@ -17,6 +18,8 @@ const homeReducer = (state = initState, action) => {
       return { ...state, isLoading: action.payload };
     case actionTypes.SET_OPEN_ADD_EDIT_MODAL:
       return { ...state, openAddEditModal: action.payload };
+    case actionTypes.SET_FILTER:
+      return { ...state, filter: action.payload };
     default:
       return state;
   }

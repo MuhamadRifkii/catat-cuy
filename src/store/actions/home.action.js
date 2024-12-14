@@ -71,6 +71,11 @@ export const setAllNotes = (token) => {
   };
 };
 
+export const setFilter = (filterValue) => ({
+  type: actionTypes.SET_FILTER,
+  payload: filterValue,
+});
+
 export const setOpenAddEditModal = (modalState) => {
   return {
     type: actionTypes.SET_OPEN_ADD_EDIT_MODAL,
