@@ -3,7 +3,7 @@ import { MdAdd } from "react-icons/md";
 import { NoteCard } from "../../component/Cards/NoteCard";
 import Navbar from "../../component/Navbar/Navbar";
 import AddEditNotes from "./AddEditNotes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,12 +11,14 @@ import {
   setUserInfo,
   setOpenAddEditModal,
 } from "../../store/actions/home.action";
+import { resetForm } from "../../store/actions/addEditNote.action";
 
 export default function Home() {
   const { isLoading, userInfo, allNotes, openAddEditModal } = useSelector(
     (state) => state.homeReducer
   );
 
+  const [filter, setFilter] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -49,6 +51,10 @@ export default function Home() {
     }
   }, [dispatch, navigate]);
 
+  const filteredNotes = allNotes.filter((note) =>
+    note.title.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <>
       <animated.div
@@ -57,11 +63,12 @@ export default function Home() {
       >
         <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
       </animated.div>
-      <Navbar userInfo={userInfo} />
 
-      <div className="container mx-auto mt-8 px-4">
-        <div className="grid grid-cols-3 gap-4 mt-8">
-          {allNotes.map((item) => (
+      <Navbar userInfo={userInfo} setFilter={setFilter} filterValue={filter} />
+
+      <div className="container mx-auto my-4 px-4">
+        <div className="grid grid-cols-3 gap-4 ">
+          {filteredNotes.map((item) => (
             <NoteCard
               key={item.id}
               title={item.title}
@@ -78,7 +85,7 @@ export default function Home() {
       </div>
 
       <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
+        className="fixed bottom-8 right-8 w-16 h-16 flex items-center justify-center rounded-full bg-primary shadow-lg hover:bg-blue-600 z-50"
         onClick={() => {
           dispatch(
             setOpenAddEditModal({ isShown: true, type: "add", data: null })
@@ -90,7 +97,6 @@ export default function Home() {
 
       {openAddEditModal.isShown && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          {/* Animated Modal */}
           <animated.div
             style={modalAnimation}
             className="bg-white p-6 rounded-lg max-w-md w-full shadow-lg"
@@ -110,15 +116,16 @@ export default function Home() {
             <AddEditNotes
               type={openAddEditModal.type}
               noteData={openAddEditModal.data}
-              onClose={() =>
+              onClose={() => [
                 dispatch(
                   setOpenAddEditModal({
                     isShown: false,
                     type: "add",
                     data: null,
                   })
-                )
-              }
+                ),
+                dispatch(resetForm()),
+              ]}
             />
           </animated.div>
         </div>

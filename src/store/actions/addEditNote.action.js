@@ -54,6 +54,7 @@ export const addNewNote =
       dispatch(setError(error.message || "An unexpected error occurred"));
     } finally {
       dispatch(setIsLoading(false));
+      dispatch(resetForm());
     }
   };
 
