@@ -2,6 +2,7 @@ name: Deploy to Vercel
 
 env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
 
 on:
   push:
