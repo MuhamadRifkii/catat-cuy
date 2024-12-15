@@ -34,8 +34,6 @@ export const setUserInfo = (token) => {
       });
     } catch (error) {
       console.error("Error fetching user info:", error);
-    } finally {
-      dispatch(setLoading(false));
     }
   };
 };
