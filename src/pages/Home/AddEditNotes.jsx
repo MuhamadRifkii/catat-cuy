@@ -8,7 +8,7 @@ import {
   setError,
   addNewNote,
   editNote,
-} from "../../store/actions/addEditNote.action";
+} from "../../store/actions/note.action";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function AddEditNotes({ noteData, type, onClose }) {
@@ -17,7 +17,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
   const { title, content, error, setIsLoading } = useSelector(
     (state) => state.noteReducer
   );
-  const token = localStorage.getItem("token");
+
 
   const LoadingSpinner = useSpring({
     opacity: setIsLoading ? 1 : 0,
@@ -46,9 +46,9 @@ export default function AddEditNotes({ noteData, type, onClose }) {
     setError("");
 
     if (type === "edit" && noteData) {
-      dispatch(editNote(noteData.id, title, content, token, onClose));
+      dispatch(editNote(noteData.id, title, content, onClose));
     } else if (type === "add") {
-      dispatch(addNewNote(title, content, token, onClose));
+      dispatch(addNewNote(title, content, onClose));
     }
   };
   return (

@@ -13,7 +13,11 @@ import {
   setOpenAddEditModal,
   setToast,
 } from "../../store/actions/home.action";
-import { resetForm } from "../../store/actions/addEditNote.action";
+import {
+  deleteNote,
+  pinNote,
+  resetForm,
+} from "../../store/actions/note.action";
 import Toast from "../../component/Toast/Toast";
 
 export default function Home() {
@@ -45,14 +49,21 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(setUserInfo(token));
-      dispatch(setAllNotes(token));
-      return () => {};
-    } else {
-      navigate("/login");
-    }
+    const loadUserAndNotes = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          await dispatch(setUserInfo(token));
+          await dispatch(setAllNotes(token));
+        } catch (error) {
+          console.error("Error loading data:", error);
+        }
+      } else {
+        navigate("/login");
+      }
+    };
+
+    loadUserAndNotes();
   }, [dispatch, navigate]);
 
   const filteredNotes = allNotes.filter(
@@ -86,8 +97,12 @@ export default function Home() {
               content={item.content}
               isPinned={item.isPinned}
               onEdit={() => handleEdit(item)}
-              onDelete={() => {}}
-              onPinNote={() => {}}
+              onDelete={() => {
+                dispatch(deleteNote(item.id));
+              }}
+              onPinNote={() => {
+                dispatch(pinNote(item.id, item.isPinned));
+              }}
               onClick={() => handleEdit(item)}
             />
           ))}

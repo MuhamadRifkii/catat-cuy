@@ -27,7 +27,10 @@ export const NoteCard = ({
 
         <MdOutlinePushPin
           className={`icon-btn ${isPinned ? "text-primary" : "text-slate-300"}`}
-          onClick={(e) => [onPinNote, e.stopPropagation()]}
+          onClick={(e) => {
+            e.stopPropagation();
+            onPinNote();
+          }}
         />
       </div>
 
@@ -42,7 +45,10 @@ export const NoteCard = ({
 
           <MdDelete
             className="icon-btn hover:text-red-500"
-            onClick={(e) => [onDelete, e.stopPropagation()]}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
           />
         </div>
       </div>
