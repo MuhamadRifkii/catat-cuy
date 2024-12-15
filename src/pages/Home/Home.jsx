@@ -25,6 +25,8 @@ export default function Home() {
   const { isLoading, userInfo, allNotes, filter, openAddEditModal, toast } =
     useSelector((state) => state.homeReducer);
 
+  const token = localStorage.getItem("token");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -90,7 +92,7 @@ export default function Home() {
 
       <div className="container mx-auto my-4 px-4">
         {allNotes.length > 0 ? (
-          <div className="grid grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredNotes.map((item) => (
               <NoteCard
                 key={item.id}
@@ -100,10 +102,10 @@ export default function Home() {
                 isPinned={item.isPinned}
                 onEdit={() => handleEdit(item)}
                 onDelete={() => {
-                  dispatch(deleteNote(item.id));
+                  dispatch(deleteNote(item.id, token));
                 }}
                 onPinNote={() => {
-                  dispatch(pinNote(item.id, item.isPinned));
+                  dispatch(pinNote(item.id, item.isPinned, token));
                 }}
                 onClick={() => handleEdit(item)}
               />

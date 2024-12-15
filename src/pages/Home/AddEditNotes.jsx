@@ -18,6 +18,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
     (state) => state.noteReducer
   );
 
+  const token = localStorage.getItem("token");
 
   const LoadingSpinner = useSpring({
     opacity: setIsLoading ? 1 : 0,
@@ -46,9 +47,9 @@ export default function AddEditNotes({ noteData, type, onClose }) {
     setError("");
 
     if (type === "edit" && noteData) {
-      dispatch(editNote(noteData.id, title, content, onClose));
+      dispatch(editNote(noteData.id, title, content, token, onClose));
     } else if (type === "add") {
-      dispatch(addNewNote(title, content, onClose));
+      dispatch(addNewNote(title, content, token, onClose));
     }
   };
   return (

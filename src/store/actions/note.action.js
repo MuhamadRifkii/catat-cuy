@@ -3,7 +3,6 @@ import { setAllNotes, setToast } from "./home.action";
 import { setLoading } from "./login.action";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const token = localStorage.getItem("token");
 
 export const setTitle = (title) => ({
   type: actionTypes.SET_TITLE,
@@ -29,52 +28,53 @@ export const setIsLoading = (isLoading) => ({
   payload: isLoading,
 });
 
-export const addNewNote = (title, content, onClose) => async (dispatch) => {
-  dispatch(setIsLoading(true));
-  try {
-    const response = await fetch(`${baseUrl}/api/v2/notes/add-note`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ title, content }),
-    });
+export const addNewNote =
+  (title, content, token, onClose) => async (dispatch) => {
+    dispatch(setIsLoading(true));
+    try {
+      const response = await fetch(`${baseUrl}/api/v2/notes/add-note`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, content }),
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (!response.ok) {
-      throw new Error(result.message || "Failed to add note");
-    }
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to add note");
+      }
 
-    if (result.note) {
-      onClose();
-      await dispatch(setAllNotes(token));
+      if (result.note) {
+        onClose();
+        await dispatch(setAllNotes(token));
+        dispatch(
+          setToast({
+            isShown: true,
+            message: "Note Added Successfully!",
+            type: "success",
+          })
+        );
+        dispatch(resetForm());
+      }
+    } catch (error) {
+      dispatch(setError(error.message || "An unexpected error occurred"));
       dispatch(
         setToast({
           isShown: true,
-          message: "Note Added Successfully!",
-          type: "success",
+          message: error.message || "An error occurred.",
+          type: "error",
         })
       );
-      dispatch(resetForm());
+    } finally {
+      dispatch(setIsLoading(false));
     }
-  } catch (error) {
-    dispatch(setError(error.message || "An unexpected error occurred"));
-    dispatch(
-      setToast({
-        isShown: true,
-        message: error.message || "An error occurred.",
-        type: "error",
-      })
-    );
-  } finally {
-    dispatch(setIsLoading(false));
-  }
-};
+  };
 
 export const editNote =
-  (noteId, title, content, onClose) => async (dispatch) => {
+  (noteId, title, content, token, onClose) => async (dispatch) => {
     dispatch(setIsLoading(true));
     try {
       const response = await fetch(
@@ -121,7 +121,7 @@ export const editNote =
     }
   };
 
-export const deleteNote = (noteId) => {
+export const deleteNote = (noteId, token) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
     try {
@@ -163,7 +163,7 @@ export const deleteNote = (noteId) => {
   };
 };
 
-export const pinNote = (noteId, isPinned) => {
+export const pinNote = (noteId, isPinned, token) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
     try {
