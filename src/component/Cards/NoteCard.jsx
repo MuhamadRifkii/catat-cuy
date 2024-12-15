@@ -34,7 +34,7 @@ export const NoteCard = ({
         />
       </div>
 
-      <p className="text-xs text-slate-600 mt-2 ">{content?.slice(0, 60)}</p>
+      <p className="text-xs text-slate-600 mt-2 truncate">{content}</p>
 
       <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-2 ml-auto">
