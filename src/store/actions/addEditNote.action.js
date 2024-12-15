@@ -1,5 +1,5 @@
 import { actionTypes } from "../actionTypes";
-import { setAllNotes } from "../../store/actions/home.action";
+import { setAllNotes, setToast } from "../../store/actions/home.action";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -49,9 +49,23 @@ export const addNewNote =
       if (result.note) {
         dispatch(setAllNotes(token));
         onClose();
+        dispatch(
+          setToast({
+            isShown: true,
+            message: "Note added successfully!",
+            type: "success",
+          })
+        );
       }
     } catch (error) {
       dispatch(setError(error.message || "An unexpected error occurred"));
+      dispatch(
+        setToast({
+          isShown: true,
+          message: error.message || "An error occurred.",
+          type: "error",
+        })
+      );
     } finally {
       dispatch(setIsLoading(false));
       dispatch(resetForm());
@@ -83,9 +97,23 @@ export const editNote =
       if (result.note) {
         dispatch(setAllNotes(token));
         onClose();
+        dispatch(
+          setToast({
+            isShown: true,
+            message: "Note updated successfully!",
+            type: "success",
+          })
+        );
       }
     } catch (error) {
       dispatch(setError(error.message || "An unexpected error occurred"));
+      dispatch(
+        setToast({
+          isShown: true,
+          message: error.message || "An error occurred.",
+          type: "error",
+        })
+      );
     } finally {
       dispatch(setIsLoading(false));
       dispatch(resetForm());

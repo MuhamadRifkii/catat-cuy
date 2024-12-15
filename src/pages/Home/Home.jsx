@@ -11,11 +11,13 @@ import {
   setUserInfo,
   setFilter,
   setOpenAddEditModal,
+  setToast,
 } from "../../store/actions/home.action";
 import { resetForm } from "../../store/actions/addEditNote.action";
+import Toast from "../../component/Toast/Toast";
 
 export default function Home() {
-  const { isLoading, userInfo, allNotes, filter, openAddEditModal } =
+  const { isLoading, userInfo, allNotes, filter, openAddEditModal, toast } =
     useSelector((state) => state.homeReducer);
 
   const navigate = useNavigate();
@@ -32,6 +34,9 @@ export default function Home() {
     visibility: isLoading ? "visible" : "hidden",
     config: { duration: 300 },
   });
+
+  const handleCloseToast = () =>
+    dispatch(setToast({ isShown: false, message: "" }));
 
   const handleEdit = (noteDetails) => {
     dispatch(
@@ -135,6 +140,13 @@ export default function Home() {
           </animated.div>
         </div>
       )}
+
+      <Toast
+        isShown={toast.isShown}
+        message={toast.message}
+        type={toast.type}
+        onClose={handleCloseToast}
+      />
     </>
   );
 }

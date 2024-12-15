@@ -80,3 +80,8 @@ export const setOpenAddEditModal = (modalState) => {
     payload: modalState,
   };
 };
+
+export const setToast = (toastState) => ({
+  type: actionTypes.SET_TOAST,
+  payload: toastState,
+});

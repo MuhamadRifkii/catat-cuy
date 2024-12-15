@@ -6,6 +6,7 @@ const initState = {
   isLoading: false,
   filter: "",
   openAddEditModal: { isShown: false, type: "add", data: null },
+  toast: { isShown: false, message: "", type: "" },
 };
 
 const homeReducer = (state = initState, action) => {
@@ -20,6 +21,8 @@ const homeReducer = (state = initState, action) => {
       return { ...state, openAddEditModal: action.payload };
     case actionTypes.SET_FILTER:
       return { ...state, filter: action.payload };
+    case actionTypes.SET_TOAST:
+      return { ...state, toast: action.payload };
     default:
       return state;
   }
