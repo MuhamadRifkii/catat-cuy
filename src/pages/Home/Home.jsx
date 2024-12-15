@@ -56,7 +56,7 @@ export default function Home() {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          await dispatch(setUserInfo(token));
+          await dispatch(setUserInfo(token, navigate));
           await dispatch(setAllNotes(token));
         } catch (error) {
           console.error("Error loading data:", error);
@@ -163,12 +163,14 @@ export default function Home() {
         </div>
       )}
 
-      <Toast
-        isShown={toast.isShown}
-        message={toast.message}
-        type={toast.type}
-        onClose={handleCloseToast}
-      />
+      {toast.isShown && (
+        <Toast
+          isShown={toast.isShown}
+          message={toast.message}
+          type={toast.type}
+          onClose={handleCloseToast}
+        />
+      )}
     </>
   );
 }

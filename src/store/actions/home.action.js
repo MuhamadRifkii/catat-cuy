@@ -7,7 +7,7 @@ export const setLoading = (isLoading) => ({
   payload: isLoading,
 });
 
-export const setUserInfo = (token) => {
+export const setUserInfo = (token, navigate) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
     try {
@@ -20,6 +20,7 @@ export const setUserInfo = (token) => {
 
       if (response.status === 401) {
         localStorage.clear();
+        navigate("/login");
         return;
       }
 
