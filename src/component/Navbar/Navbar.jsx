@@ -37,31 +37,37 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
   return (
     <div className="sticky top-0 z-50 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
       {/* Mobile Search Icon */}
-      <div className="md:hidden flex items-center">
-        <animated.div style={rotateSearch}>
-          {!isSearchOpen ? (
-            <MdSearch
-              className="text-xl text-slate-800 cursor-pointer"
-              onClick={() => setSearchOpen(true)}
-            />
-          ) : (
-            <MdClose
-              className="text-xl text-slate-800 cursor-pointer"
-              onClick={() => setSearchOpen(false)}
-            />
-          )}
-        </animated.div>
-      </div>
+      {userInfo && (
+        <div className="md:hidden flex items-center">
+          <animated.div style={rotateSearch}>
+            {!isSearchOpen ? (
+              <MdSearch
+                className="text-xl text-slate-800 cursor-pointer"
+                onClick={() => setSearchOpen(true)}
+              />
+            ) : (
+              <MdClose
+                className="text-xl text-slate-800 cursor-pointer"
+                onClick={() => setSearchOpen(false)}
+              />
+            )}
+          </animated.div>
+        </div>
+      )}
 
       {/* Logo */}
       {!isSearchOpen && (
-        <h2 className="sm:text-xl text-sm font-medium text-black py-2">
-          Catat Cuy
-        </h2>
+        <div
+          className={`sm:text-xl text-sm font-medium text-black py-2 ${
+            !userInfo && "flex-1 text-center md:text-left"
+          }`}
+        >
+          <h2 className="">{userInfo ? "Catat Cuy" : "Catat Cuy"}</h2>
+        </div>
       )}
 
       {/* Searchbar in Navbar (Mobile & Desktop) */}
-      {isSearchOpen && (
+      {isSearchOpen && userInfo && (
         <div className="flex-grow mx-4">
           <Searchbar
             value={filterValue}
@@ -72,7 +78,7 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
       )}
 
       {/* Hamburger Menu (Hidden when search bar is open) */}
-      {!isSearchOpen && (
+      {!isSearchOpen && userInfo && (
         <div
           className="md:hidden flex items-center cursor-pointer"
           onClick={() => setDropdownOpen(!isDropdownOpen)}
