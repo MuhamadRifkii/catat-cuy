@@ -5,10 +5,12 @@ import Profile from "../Cards/Profile";
 import Searchbar from "../Searchbar/Searchbar";
 import { useDispatch } from "react-redux";
 import { resetForm } from "../../store/actions/login.action";
-import { getInitials } from "../../utils/helper";
+import { MdClose, MdMenu, MdSearch } from "react-icons/md";
+import { useSpring, animated } from "@react-spring/web";
 
 export default function Navbar({ userInfo, setFilter, filterValue }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,50 +24,96 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
     setFilter("");
   };
 
+  const rotateHamburger = useSpring({
+    transform: isDropdownOpen ? "rotate(90deg)" : "rotate(0deg)",
+    config: { tension: 300, friction: 25 },
+  });
+
+  const rotateSearch = useSpring({
+    transform: isSearchOpen ? "rotate(90deg)" : "rotate(0deg)",
+    config: { tension: 300, friction: 25 },
+  });
+
   return (
     <div className="sticky top-0 z-50 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-      <h2 className="text-xl font-medium text-black py-2">Catat Cuy</h2>
+      {/* Mobile Search Icon */}
+      <div className="md:hidden flex items-center">
+        <animated.div style={rotateSearch}>
+          {!isSearchOpen ? (
+            <MdSearch
+              className="text-xl text-slate-800 cursor-pointer"
+              onClick={() => setSearchOpen(true)}
+            />
+          ) : (
+            <MdClose
+              className="text-xl text-slate-800 cursor-pointer"
+              onClick={() => setSearchOpen(false)}
+            />
+          )}
+        </animated.div>
+      </div>
 
-      {userInfo && (
-        <Searchbar
-          value={filterValue}
-          onChange={(e) => setFilter(e.target.value)}
-          onClearSearch={onClearSearch}
-        />
+      {/* Logo */}
+      {!isSearchOpen && (
+        <h2 className="sm:text-xl text-sm font-medium text-black py-2">
+          Catat Cuy
+        </h2>
       )}
 
-      {/* Profile Section */}
-      <div className="relative">
-        {/* Profile Icon on Large Screen */}
-        <div className="hidden md:flex items-center gap-3">
-          <Profile userInfo={userInfo} logout={logout} />
+      {/* Searchbar in Navbar (Mobile & Desktop) */}
+      {isSearchOpen && (
+        <div className="flex-grow mx-4">
+          <Searchbar
+            value={filterValue}
+            onChange={(e) => setFilter(e.target.value)}
+            onClearSearch={onClearSearch}
+          />
         </div>
+      )}
 
-        {/* Profile Icon for Mobile */}
+      {/* Hamburger Menu (Hidden when search bar is open) */}
+      {!isSearchOpen && (
         <div
-          className="md:hidden flex items-center gap-3 cursor-pointer"
+          className="md:hidden flex items-center cursor-pointer"
           onClick={() => setDropdownOpen(!isDropdownOpen)}
         >
-          {userInfo && <div className="w-12 h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100">
-            {getInitials(userInfo?.name)}
-          </div>}
+          <animated.div style={rotateHamburger}>
+            {isDropdownOpen ? (
+              <MdClose className="text-xl text-slate-800" />
+            ) : (
+              <MdMenu className="text-xl text-slate-800" />
+            )}
+          </animated.div>
         </div>
+      )}
 
-        {/* Dropdown Menu for Mobile */}
-        {isDropdownOpen && (
-          <div className="absolute top-14 right-0 bg-white border border-gray-300 shadow-lg rounded-md p-3 w-48">
-            <p className="text-sm font-medium text-slate-800">
-              {userInfo?.name}
-            </p>
-            <button
-              className="text-sm text-red-500 w-full text-left mt-2"
-              onClick={logout}
-            >
-              Logout
-            </button>
-          </div>
-        )}
+      {/* Desktop Searchbar */}
+      {userInfo && !isSearchOpen && (
+        <div className="hidden md:block">
+          <Searchbar
+            value={filterValue}
+            onChange={(e) => setFilter(e.target.value)}
+            onClearSearch={onClearSearch}
+          />
+        </div>
+      )}
+
+      {/* Dropdown (Hidden on PC) or Profile (Hidden on Mobile)  */}
+      <div className="hidden md:flex items-center gap-3">
+        <Profile userInfo={userInfo} logout={logout} />
       </div>
+
+      {isDropdownOpen && (
+        <div className="absolute top-14 right-0 bg-white border border-gray-300 shadow-lg rounded-md p-3 w-48">
+          <p className="text-sm font-medium text-slate-800">{userInfo?.name}</p>
+          <button
+            className="text-sm text-red-500 w-full text-left mt-2"
+            onClick={logout}
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 }
