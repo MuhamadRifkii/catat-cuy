@@ -36,7 +36,7 @@ function Toast({ isShown, message, type, onClose }) {
             )}
           </div>
 
-          <p className="text-sm to-slate-800">{message}</p>
+          <p className="text-sm text-slate-800">{message}</p>
         </div>
       </div>
     </div>

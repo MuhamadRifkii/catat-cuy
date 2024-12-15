@@ -19,6 +19,7 @@ import {
   resetForm,
 } from "../../store/actions/note.action";
 import Toast from "../../component/Toast/Toast";
+import EmptyNotes from "../../component/EmptyNotes/EmptyNotes";
 
 export default function Home() {
   const { isLoading, userInfo, allNotes, filter, openAddEditModal, toast } =
@@ -88,25 +89,29 @@ export default function Home() {
       />
 
       <div className="container mx-auto my-4 px-4">
-        <div className="grid grid-cols-3 gap-4 ">
-          {filteredNotes.map((item) => (
-            <NoteCard
-              key={item.id}
-              title={item.title}
-              date={item.createdAt}
-              content={item.content}
-              isPinned={item.isPinned}
-              onEdit={() => handleEdit(item)}
-              onDelete={() => {
-                dispatch(deleteNote(item.id));
-              }}
-              onPinNote={() => {
-                dispatch(pinNote(item.id, item.isPinned));
-              }}
-              onClick={() => handleEdit(item)}
-            />
-          ))}
-        </div>
+        {allNotes.length > 0 ? (
+          <div className="grid grid-cols-3 gap-4 ">
+            {filteredNotes.map((item) => (
+              <NoteCard
+                key={item.id}
+                title={item.title}
+                date={item.createdAt}
+                content={item.content}
+                isPinned={item.isPinned}
+                onEdit={() => handleEdit(item)}
+                onDelete={() => {
+                  dispatch(deleteNote(item.id));
+                }}
+                onPinNote={() => {
+                  dispatch(pinNote(item.id, item.isPinned));
+                }}
+                onClick={() => handleEdit(item)}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyNotes />
+        )}
       </div>
 
       <button
