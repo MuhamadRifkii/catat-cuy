@@ -20,6 +20,7 @@ import {
 } from "../../store/actions/note.action";
 import Toast from "../../component/Toast/Toast";
 import EmptyNotes from "../../component/EmptyNotes/EmptyNotes";
+import Swal from "sweetalert2";
 
 export default function Home() {
   const { isLoading, userInfo, allNotes, filter, openAddEditModal, toast } =
@@ -49,6 +50,24 @@ export default function Home() {
     dispatch(
       setOpenAddEditModal({ isShown: true, data: noteDetails, type: "edit" })
     );
+  };
+
+  const handleDelete = async (noteId) => {
+    Swal.fire({
+      title: "Hapus catatan?",
+      icon: "warning",
+      showDenyButton: true,
+      denyButtonText: "Hapus",
+      confirmButtonText: "Batal",
+      customClass: {
+        confirmButton: "swal-confirm-btn",
+        denyButton: "swal-deny-btn",
+      },
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        dispatch(deleteNote(noteId, token));
+      }
+    });
   };
 
   useEffect(() => {
@@ -102,7 +121,7 @@ export default function Home() {
                 isPinned={item.isPinned}
                 onEdit={() => handleEdit(item)}
                 onDelete={() => {
-                  dispatch(deleteNote(item.id, token));
+                  handleDelete(item.id);
                 }}
                 onPinNote={() => {
                   dispatch(pinNote(item.id, item.isPinned, token));

@@ -13,6 +13,7 @@ import {
   setLoading,
 } from "../../store/actions/signUp.action";
 import { useSpring, animated } from "@react-spring/web";
+import Swal from "sweetalert2";
 
 export default function SignUp() {
   const { name, email, password, error, isLoading } = useSelector(
@@ -51,7 +52,15 @@ export default function SignUp() {
       const result = await dispatch(signUpUser(name, email, password));
       if (result?.success) {
         localStorage.setItem("token", result.data.token);
-        navigate("/dashboard");
+        Swal.fire({
+          title: "Registrasi Berhasi!",
+          text: "Akun ada Berhasil dibuat!. Anda akan diarahkan kehalaman dashboard.",
+          timer: 2000,
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/dashboard");
+        });
       }
     } catch (error) {
       if (

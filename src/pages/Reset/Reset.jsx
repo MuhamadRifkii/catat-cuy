@@ -13,6 +13,7 @@ import {
 } from "../../store/actions/reset.action";
 import { resetForm } from "../../store/actions/login.action";
 import { useSpring, animated } from "@react-spring/web";
+import Swal from "sweetalert2";
 
 function Login() {
   const { email, otp, newPassword, error, isLoading } = useSelector(
@@ -51,7 +52,15 @@ function Login() {
       const result = await dispatch(resetPassword(email, otp, newPassword));
       if (result?.success) {
         handleReset();
-        navigate("/login");
+        Swal.fire({
+          title: "Reset Password!",
+          text: "Password anda berhasil diubah!",
+          timer: 3000,
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/login");
+        });
       }
     } catch (error) {
       if (

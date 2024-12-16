@@ -36,6 +36,11 @@ function Reset() {
       dispatch(setLoading(true));
       const result = await dispatch(requestResetPassword(email));
       if (result?.success) {
+        dispatch(
+          setError(
+            "OTP Reset Password Berhasil Dikirimkan. Mohon periksa Email anda"
+          )
+        );
         navigate("/reset");
       }
     } catch (error) {
