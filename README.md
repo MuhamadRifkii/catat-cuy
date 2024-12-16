@@ -99,4 +99,7 @@ Kontribusi sangat diterima pada aplikasi! Untuk memulai:
 
 ---
 
-Dibuat dengan ❤️ oleh **Muhamad Rifqi**.
+## 🌟 Kredit
+
+- Dibuat dengan ❤️ oleh [Muhamad Rifqi](https://github.com/MuhamadRifkii/).
+
