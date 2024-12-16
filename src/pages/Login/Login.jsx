@@ -27,7 +27,6 @@ function Login() {
   });
 
   const handleLogin = async (e) => {
-    dispatch(setLoading(true));
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -42,6 +41,7 @@ function Login() {
 
     dispatch(setError(""));
     try {
+      dispatch(setLoading(true));
       const result = await dispatch(loginUser(email, password));
       if (result?.success) {
         localStorage.setItem("token", result.data.token);

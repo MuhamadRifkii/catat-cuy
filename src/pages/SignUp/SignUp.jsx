@@ -28,7 +28,6 @@ export default function SignUp() {
   });
 
   const handleSignUp = async (e) => {
-    dispatch(setLoading(true));
     e.preventDefault();
 
     if (!name) {
@@ -48,6 +47,7 @@ export default function SignUp() {
 
     dispatch(setError(""));
     try {
+      dispatch(setLoading(true));
       const result = await dispatch(signUpUser(name, email, password));
       if (result?.success) {
         localStorage.setItem("token", result.data.token);
