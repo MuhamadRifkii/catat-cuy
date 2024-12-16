@@ -17,6 +17,7 @@ export default function Searchbar({ value, onChange, onClearSearch }) {
 
       {value && (
         <IoMdClose
+          data-testid="bersihkan"
           className="text-xl text-slate-500 cursor-pointer hover:text-black"
           onClick={onClearSearch}
         />
