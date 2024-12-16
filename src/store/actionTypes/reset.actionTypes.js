@@ -1,0 +1,8 @@
+export const resetActionTypes = {
+  SET_EMAIL: "SET_EMAIL",
+  SET_OTP: "SET_OTP",
+  SET_NEW_PASSWORD: "SET_NEW_PASSWORD",
+  SET_ERROR: "SET_ERROR",
+  RESET: "RESET",
+  SET_LOADING: "SET_LOADING",
+};

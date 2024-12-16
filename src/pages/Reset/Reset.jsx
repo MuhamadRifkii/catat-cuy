@@ -1,21 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  loginUser,
+  resetPassword,
   setEmail,
+  setOTP,
+  setNewPassword,
   setError,
-  setPassword,
   setLoading,
-} from "../../store/actions/login.action";
-import { resetForm } from "../../store/actions/signUp.action";
+} from "../../store/actions/reset.action";
+import { resetForm } from "../../store/actions/login.action";
 import { useSpring, animated } from "@react-spring/web";
 
 function Login() {
-  const { email, password, error, isLoading } = useSelector(
-    (state) => state.loginReducer
+  const { email, otp, newPassword, error, isLoading } = useSelector(
+    (state) => state.resetReducer
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,7 +35,12 @@ function Login() {
       return;
     }
 
-    if (!password) {
+    if (!otp) {
+      dispatch(setError("OTP tidak boleh kosong"));
+      return;
+    }
+
+    if (!newPassword) {
       dispatch(setError("Password tidak boleh kosong"));
       return;
     }
@@ -42,10 +48,10 @@ function Login() {
     dispatch(setError(""));
     try {
       dispatch(setLoading(true));
-      const result = await dispatch(loginUser(email, password));
+      const result = await dispatch(resetPassword(email, otp, newPassword));
       if (result?.success) {
-        localStorage.setItem("token", result.data.token);
-        navigate("/dashboard");
+        handleReset();
+        navigate("/login");
       }
     } catch (error) {
       if (
@@ -79,7 +85,7 @@ function Login() {
       <div className="flex items-center justify-center mt-28">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form onSubmit={handleLogin}>
-            <h4 className="text-2xl mb-7">Masuk</h4>
+            <h4 className="text-2xl mb-7 ">Reset Password</h4>
 
             <input
               type="text"
@@ -89,37 +95,25 @@ function Login() {
               onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 
-            <Password
-              value={password}
-              onChange={(e) => dispatch(setPassword(e.target.value))}
+            <input
+              type="text"
+              placeholder="Kode OTP"
+              className="input-container"
+              value={otp}
+              onChange={(e) => dispatch(setOTP(e.target.value))}
             />
 
-            <p className="text-sm text-end mb-2">
-              <Link
-                to="/request-reset"
-                className="font-medium text-primary underline"
-                onClick={handleReset}
-              >
-                Lupa Password?
-              </Link>
-            </p>
+            <Password
+              value={newPassword}
+              onChange={(e) => dispatch(setNewPassword(e.target.value))}
+              placeholder={"Password Baru"}
+            />
 
             {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
 
             <button type="submit" className="btn-primary">
-              Masuk
+              Reset Password
             </button>
-
-            <p className="text-sm text-center mt-4">
-              Belum punya akun?{" "}
-              <Link
-                to="/signup"
-                className="font-medium text-primary underline"
-                onClick={handleReset}
-              >
-                Buat akun
-              </Link>
-            </p>
           </form>
         </div>
       </div>
