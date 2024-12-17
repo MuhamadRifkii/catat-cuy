@@ -98,6 +98,7 @@ function Login() {
 
             <input
               type="text"
+              name="email"
               placeholder="Email"
               className="input-container"
               value={email}

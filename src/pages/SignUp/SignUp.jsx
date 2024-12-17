@@ -97,6 +97,7 @@ export default function SignUp() {
 
             <input
               type="text"
+              name="nama"
               placeholder="Nama"
               className="input-container"
               value={name}
@@ -105,6 +106,7 @@ export default function SignUp() {
 
             <input
               type="text"
+              name="email"
               placeholder="Email"
               className="input-container"
               value={email}

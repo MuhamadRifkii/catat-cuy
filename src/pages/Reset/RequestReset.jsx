@@ -75,6 +75,7 @@ function Reset() {
 
             <input
               type="text"
+              name="email"
               placeholder="Email"
               className="input-container"
               value={email}
