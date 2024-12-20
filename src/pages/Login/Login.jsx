@@ -1,3 +1,4 @@
+import { FcGoogle } from "react-icons/fc"; // Google logo
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
@@ -12,6 +13,7 @@ import {
 } from "../../store/actions/login.action";
 import { resetForm } from "../../store/actions/signUp.action";
 import { useSpring, animated } from "@react-spring/web";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 function Login() {
   const { email, password, error, isLoading } = useSelector(
@@ -66,6 +68,33 @@ function Login() {
     dispatch(resetForm());
   };
 
+  const handleGoogleLogin = async (response) => {
+    try {
+      dispatch(setLoading(true));
+
+      const result = await fetch("http://localhost:3001/api/v2/auth/oauth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: response.credential }),
+      });
+
+      const data = await result.json();
+      if (data.error) {
+        dispatch(setError(data.message || "Unknown Error"));
+      } else {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("Google login error:", error);
+      dispatch(setError("Terjadi kesalahan saat login dengan Google"));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   return (
     <>
       <animated.div
@@ -76,7 +105,7 @@ function Login() {
       </animated.div>
       <Navbar />
 
-      <div className="flex items-center justify-center mt-28">
+      <div className="flex items-center justify-center my-[10vh]">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form onSubmit={handleLogin}>
             <h4 className="text-2xl mb-7">Masuk</h4>
@@ -122,6 +151,44 @@ function Login() {
               </Link>
             </p>
           </form>
+
+          <div className="flex items-center w-full my-4">
+            <div className="border-t border-gray-300 flex-grow"></div>
+            <span className="mx-4 text-gray-500">OR</span>
+            <div className="border-t border-gray-300 flex-grow"></div>
+          </div>
+
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <div className="w-full">
+              <button
+                type="button"
+                onClick={() => {
+                  const googleLoginButton =
+                    document.querySelector('[role="button"]');
+                  if (googleLoginButton) {
+                    googleLoginButton.click();
+                  }
+                }}
+                className="btn-primary flex items-center justify-center gap-2 py-2.5 bg-white text-black font-helvetica text-[14px] border border-black hover:bg-black hover:text-white transition-colors"
+              >
+                <FcGoogle
+                  icon="flat-color-icons:google"
+                  width="22"
+                  height="22"
+                />
+                Masuk Dengan Google
+              </button>
+              <div className="hidden">
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                  useOneTap
+                />
+              </div>
+            </div>
+          </GoogleOAuthProvider>
         </div>
       </div>
     </>
