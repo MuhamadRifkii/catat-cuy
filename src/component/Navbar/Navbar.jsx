@@ -36,7 +36,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
 
   return (
     <div className="sticky top-0 z-50 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-      {/* Mobile Search Icon */}
       {userInfo && (
         <div className="md:hidden flex items-center">
           <animated.div style={rotateSearch}>
@@ -55,7 +54,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {/* Logo */}
       {!isSearchOpen && (
         <div
           className={`sm:text-xl text-sm font-medium text-black py-2 ${
@@ -66,7 +64,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {/* Searchbar in Navbar (Mobile & Desktop) */}
       {isSearchOpen && userInfo && (
         <div className="flex-grow mx-4">
           <Searchbar
@@ -77,7 +74,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {/* Hamburger Menu (Hidden when search bar is open) */}
       {!isSearchOpen && userInfo && (
         <div
           className="md:hidden flex items-center cursor-pointer"
@@ -93,7 +89,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {/* Desktop Searchbar */}
       {userInfo && !isSearchOpen && (
         <div className="hidden md:block">
           <Searchbar
@@ -104,7 +99,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {/* Dropdown (Hidden on PC) or Profile (Hidden on Mobile)  */}
       <div className="hidden md:flex items-center gap-3">
         <Profile userInfo={userInfo} logout={logout} />
       </div>

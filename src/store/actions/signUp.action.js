@@ -47,7 +47,6 @@ export const signUpUser = (name, email, password) => {
       }
 
       const data = await response.json();
-      console.log("Sign-up successful:", data);
       dispatch(setError(null));
       return { success: true, data };
     } catch {

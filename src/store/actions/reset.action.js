@@ -74,7 +74,6 @@ export const resetPassword = (email, otp, newPassword) => {
       }
 
       const data = await response.json();
-      console.log("Login successful:", data);
       dispatch(setError(null));
       return { success: true, data };
     } catch {

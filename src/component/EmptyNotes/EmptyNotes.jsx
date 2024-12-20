@@ -12,7 +12,7 @@ function EmptyNotes() {
         />
       </div>
       <p className="w-1/2 text-sm font-medium text-slate-700 text-center leading-7 mt-5">
-        Start creating your Note! Press the &apos;Add&apos; button!
+        Mulai Tambahkan Catatan! Klik Tombol &apos;+&apos;!
       </p>
     </div>
   );

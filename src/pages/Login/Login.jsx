@@ -1,4 +1,4 @@
-import { FcGoogle } from "react-icons/fc"; // Google logo
+import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../component/Navbar/Navbar";
 import Password from "../../component/Input/Password";
@@ -69,7 +69,7 @@ function Login() {
     try {
       dispatch(setLoading(true));
       const result = await dispatch(googleLogin(response));
-      console.log(result.data);
+
       if (result?.success) {
         localStorage.setItem("token", result.data.token);
         navigate("/dashboard");
@@ -172,7 +172,7 @@ function Login() {
                 <GoogleLogin
                   onSuccess={handleGoogleLogin}
                   onError={() => {
-                    console.log("Login Failed");
+                    dispatch(setError("Gagal Login dengan Google"));
                   }}
                   useOneTap
                 />
