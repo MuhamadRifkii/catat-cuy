@@ -10,6 +10,7 @@ import {
   setError,
   setPassword,
   setLoading,
+  googleLogin,
 } from "../../store/actions/login.action";
 import { resetForm } from "../../store/actions/signUp.action";
 import { useSpring, animated } from "@react-spring/web";
@@ -64,36 +65,25 @@ function Login() {
     }
   };
 
-  const handleReset = () => {
-    dispatch(resetForm());
-  };
-
   const handleGoogleLogin = async (response) => {
     try {
       dispatch(setLoading(true));
-
-      const result = await fetch("http://localhost:3001/api/v2/auth/oauth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: response.credential }),
-      });
-
-      const data = await result.json();
-      if (data.error) {
-        dispatch(setError(data.message || "Unknown Error"));
-      } else {
-        localStorage.setItem("token", data.token);
+      const result = await dispatch(googleLogin(response));
+      console.log(result.data);
+      if (result?.success) {
+        localStorage.setItem("token", result.data.token);
         navigate("/dashboard");
       }
-    } catch (error) {
-      console.error("Google login error:", error);
-      dispatch(setError("Terjadi kesalahan saat login dengan Google"));
+    } catch {
+      dispatch(setError("Google Login Failed"));
     } finally {
       dispatch(setLoading(false));
     }
   };
+
+    const handleReset = () => {
+      dispatch(resetForm());
+    };
 
   return (
     <>

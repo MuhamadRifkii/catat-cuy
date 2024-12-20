@@ -42,11 +42,35 @@ export const loginUser = (email, password) => {
       }
 
       const data = await response.json();
-      console.log("Login successful:", data);
       dispatch(setError(null));
       return { success: true, data };
     } catch {
       dispatch(setError("Network error: Unable to login"));
+    }
+  };
+};
+
+export const googleLogin = (response) => {
+  return async (dispatch) => {
+    try {
+      const result = await fetch(`${baseUrl}/api/v2/auth/oauth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: response.credential }),
+      });
+
+      const data = await result.json();
+      if (data.error) {
+        dispatch(setError(data.message || "Unknown Error"));
+      } else {
+        return { success: true, data };
+      }
+    } catch {
+      dispatch(setError("Terjadi kesalahan saat login dengan Google"));
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 };
