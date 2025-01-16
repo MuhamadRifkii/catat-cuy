@@ -19,6 +19,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
   const dispatch = useDispatch();
   const formRef = useRef(null);
   const [swalActive, setSwalActive] = useState(false);
+
   const { title, content, error, setIsLoading } = useSelector(
     (state) => state.noteReducer
   );
@@ -72,6 +73,10 @@ export default function AddEditNotes({ noteData, type, onClose }) {
           showCancelButton: true,
           confirmButtonText: "Ya, buang",
           cancelButtonText: "Batal",
+          reverseButtons: true,
+          customClass: {
+            confirmButton: "swal-confirm-btn",
+          },
         }).then((result) => {
           setSwalActive(false);
           if (result.isConfirmed) {
@@ -86,9 +91,9 @@ export default function AddEditNotes({ noteData, type, onClose }) {
 
   const handleClickOutside = (event) => {
     if (
-      !swalActive &&
       formRef.current &&
-      !formRef.current.contains(event.target)
+      !formRef.current.contains(event.target) &&
+      !swalActive
     ) {
       handleClose();
     }

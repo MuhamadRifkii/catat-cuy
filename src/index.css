@@ -4,9 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
-.swal-confirm-btn,
+.swal-confirm-btn {
+  background-color: #dc3545 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.swal-confirm-btn:hover {
+  background-color: #b02a37 !important;
+}
+
 .swal-deny-btn {
-  @apply w-24 px-4 py-2 text-sm font-medium rounded-lg;
+  background-color: #6c757d !important;
+  color: white !important;
+}
+
+.swal-deny-btn:hover {
+  background-color: #5a6268 !important;
 }
 
 @layer base {

@@ -57,14 +57,15 @@ export default function Home() {
       title: "Hapus catatan?",
       icon: "warning",
       showDenyButton: true,
-      denyButtonText: "Hapus",
-      confirmButtonText: "Batal",
+      denyButtonText: "Batal",
+      confirmButtonText: "Hapus",
+      reverseButtons: true,
       customClass: {
         confirmButton: "swal-confirm-btn",
         denyButton: "swal-deny-btn",
       },
     }).then((result) => {
-      if (!result.isConfirmed) {
+      if (result.isConfirmed) {
         dispatch(deleteNote(noteId, token));
       }
     });
