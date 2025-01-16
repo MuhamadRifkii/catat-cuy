@@ -148,7 +148,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
           className="btn-primary font-medium mt-5 p-3"
           onClick={handleAddNote}
         >
-          {type === "edit" ? "UPDATE" : "ADD"}
+          {type === "edit" ? "PERBARUI" : "TAMBAH"}
         </button>
       </div>
     </>

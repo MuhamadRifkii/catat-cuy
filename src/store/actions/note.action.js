@@ -53,7 +53,7 @@ export const addNewNote =
         dispatch(
           setToast({
             isShown: true,
-            message: "Note Added Successfully!",
+            message: "Catatan Berhasil Ditambahkan!",
             type: "success",
           })
         );
@@ -101,7 +101,7 @@ export const editNote =
         dispatch(
           setToast({
             isShown: true,
-            message: "Note Updated Successfully!",
+            message: "Catatan Berhasil Diperbarui!",
             type: "success",
           })
         );
@@ -144,7 +144,7 @@ export const deleteNote = (noteId, token) => {
         dispatch(
           setToast({
             isShown: true,
-            message: "Note Deleted Successfully!",
+            message: "Catatan Berhasil Dihapus!",
             type: "delete",
           })
         );
