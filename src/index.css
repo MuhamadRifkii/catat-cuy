@@ -34,7 +34,7 @@
   }
 
   .no-border-quill .ql-container {
-    max-height: 300px;
+    height: 250px;
     overflow-y: auto;
     border: 2px solid #ccc;
     border-bottom-left-radius: 8px;

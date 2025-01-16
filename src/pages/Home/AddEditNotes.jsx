@@ -106,6 +106,24 @@ export default function AddEditNotes({ noteData, type, onClose }) {
     };
   }, [hasChanges, swalActive]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+
+      if (event.key === "Enter" && event.ctrlKey) {
+        handleAddNote();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleClose, handleAddNote, hasChanges, swalActive]);
+
   return (
     <>
       <animated.div
