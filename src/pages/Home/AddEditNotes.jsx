@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useSpring, animated } from "@react-spring/web";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { MdClose } from "react-icons/md";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   setTitle,
   setContent,
@@ -13,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function AddEditNotes({ noteData, type, onClose }) {
   const dispatch = useDispatch();
+  const formRef = useRef(null);
 
   const { title, content, error, setIsLoading } = useSelector(
     (state) => state.noteReducer
@@ -31,7 +34,19 @@ export default function AddEditNotes({ noteData, type, onClose }) {
       dispatch(setTitle(noteData.title || ""));
       dispatch(setContent(noteData.content || ""));
     }
-  }, [noteData, dispatch]);
+
+    const handleClickOutside = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [noteData, dispatch, onClose]);
 
   const handleAddNote = () => {
     if (!title) {
@@ -60,7 +75,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
       >
         <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
       </animated.div>
-      <div className="relative ">
+      <div ref={formRef} className="relative">
         <button
           className="w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-50"
           onClick={onClose}
@@ -78,15 +93,13 @@ export default function AddEditNotes({ noteData, type, onClose }) {
           />
         </div>
 
-        <div className="flex flex-col gap-2 mt-4 ">
+        <div className="flex flex-col gap-2 mt-4">
           <label className="input-label">CONTENT</label>
-          <textarea
-            type="text"
-            className="text-sm text-slate-950 outline-none bg-slate-50 p-2 rounded"
-            placeholder="Content"
-            rows={10}
+          <ReactQuill
+            theme="snow"
             value={content}
-            onChange={({ target }) => dispatch(setContent(target.value))}
+            onChange={(value) => dispatch(setContent(value))}
+            className="no-border-quill"
           />
         </div>
 

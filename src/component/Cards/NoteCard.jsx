@@ -34,7 +34,15 @@ export const NoteCard = ({
         />
       </div>
 
-      <p className="text-xs text-slate-600 mt-2 truncate">{content}</p>
+      <div
+        className="text-xs text-slate-600 mt-2 overflow-hidden whitespace-nowrap text-ellipsis max-w-full"
+        style={{
+          display: "-webkit-box",
+          WebkitLineClamp: 1,
+          WebkitBoxOrient: "vertical",
+        }}
+        dangerouslySetInnerHTML={{ __html: content }}
+      ></div>
 
       <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-2 ml-auto">
