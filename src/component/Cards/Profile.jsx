@@ -14,12 +14,14 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
 
   return (
     <div className="flex items-center gap-3">
-      <div className=" hidden md:flex w-12 h-12 items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100">
-        {getInitials(userInfo?.name)}
-      </div>
-      {!isSearchOpen && userInfo && (
+      {userInfo && (
+        <div className="hidden md:flex w-12 h-12 items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100">
+          {getInitials(userInfo?.name)}
+        </div>
+      )}
+      {!isSearchOpen && (
         <div
-          className=" flex items-center cursor-pointer"
+          className="flex items-center cursor-pointer"
           onClick={() => setDropdownOpen(!isDropdownOpen)}
         >
           <animated.div style={rotateHamburger}>
@@ -34,13 +36,26 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
 
       {isDropdownOpen && (
         <div className="absolute top-14 right-0 bg-white border border-gray-300 shadow-lg rounded-md p-3 w-48">
-          <p className="text-sm font-medium text-slate-800">{userInfo?.name}</p>
-          <button
-            className="text-sm text-red-500 w-full text-left mt-2"
-            onClick={logout}
-          >
-            Logout
-          </button>
+          {userInfo ? (
+            <>
+              <p className="text-sm font-medium text-slate-800">
+                {userInfo?.name}
+              </p>
+              <button
+                className="text-sm text-red-500 w-full text-left mt-2"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <button
+              className="text-sm text-red-500 w-full text-left"
+              onClick={logout}
+            >
+              Logout
+            </button>
+          )}
         </div>
       )}
     </div>

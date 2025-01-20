@@ -45,7 +45,7 @@ export const loginUser = (email, password) => {
       dispatch(setError(null));
       return { success: true, data };
     } catch {
-      dispatch(setError("Network error: Unable to login"));
+      dispatch(setError("Terjadi kesalahan saat login"));
     }
   };
 };

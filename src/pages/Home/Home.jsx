@@ -105,6 +105,7 @@ export default function Home() {
       </animated.div>
 
       <Navbar
+        token={token}
         userInfo={userInfo}
         setFilter={(value) => dispatch(setFilter(value))}
         filterValue={filter}
@@ -132,20 +133,22 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <EmptyNotes />
+          <EmptyNotes userInfo={userInfo} isLoading={isLoading} />
         )}
       </div>
 
-      <button
-        className="fixed bottom-8 right-8 w-16 h-16 flex items-center justify-center rounded-full bg-primary shadow-lg hover:bg-blue-600 z-50"
-        onClick={() => {
-          dispatch(
-            setOpenAddEditModal({ isShown: true, type: "add", data: null })
-          );
-        }}
-      >
-        <MdAdd className="text-[32px] text-white" />
-      </button>
+      {userInfo && (
+        <button
+          className="fixed bottom-8 right-8 w-16 h-16 flex items-center justify-center rounded-full bg-primary shadow-lg hover:bg-blue-600 z-50"
+          onClick={() => {
+            dispatch(
+              setOpenAddEditModal({ isShown: true, type: "add", data: null })
+            );
+          }}
+        >
+          <MdAdd className="text-[32px] text-white" />
+        </button>
+      )}
 
       {openAddEditModal.isShown && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

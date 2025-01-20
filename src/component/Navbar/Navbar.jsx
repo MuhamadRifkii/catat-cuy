@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Profile from "../Cards/Profile";
 import Searchbar from "../Searchbar/Searchbar";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { resetForm } from "../../store/actions/login.action";
 import { MdClose, MdSearch } from "react-icons/md";
 import { useSpring, animated } from "@react-spring/web";
 
-export default function Navbar({ userInfo, setFilter, filterValue }) {
+export default function Navbar({ token, userInfo, setFilter, filterValue }) {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,18 +30,26 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
 
   return (
     <div className="sticky top-0 z-50 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-      {userInfo && (
+      {token && (
         <div className="md:hidden flex items-center">
           <animated.div style={rotateSearch}>
             {!isSearchOpen ? (
               <MdSearch
-                className="text-xl text-slate-800 cursor-pointer"
-                onClick={() => setSearchOpen(true)}
+                className={`text-xl ${
+                  userInfo
+                    ? "text-slate-800 cursor-pointer"
+                    : "text-slate-400 cursor-not-allowed"
+                }`}
+                onClick={() => userInfo && setSearchOpen(true)}
               />
             ) : (
               <MdClose
-                className="text-xl text-slate-800 cursor-pointer"
-                onClick={() => setSearchOpen(false)}
+                className={`text-xl ${
+                  userInfo
+                    ? "text-slate-800 cursor-pointer"
+                    : "text-slate-400 cursor-not-allowed"
+                }`}
+                onClick={() => userInfo && setSearchOpen(false)}
               />
             )}
           </animated.div>
@@ -54,7 +62,13 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
             !userInfo && "flex-1 text-center md:text-left"
           }`}
         >
-          <h2 className="">{userInfo ? "Catat Cuy" : "Catat Cuy"}</h2>
+          <Link
+            to="/"
+            className="cursor-pointer"
+            onClick={() => window.location.reload()}
+          >
+            <h2>Catat Cuy</h2>
+          </Link>
         </div>
       )}
 
@@ -78,13 +92,15 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      <div className="md:flex items-center gap-3">
-        <Profile
-          userInfo={userInfo}
-          isSearchOpen={isSearchOpen}
-          logout={logout}
-        />
-      </div>
+      {token && (
+        <div className="md:flex items-center gap-3">
+          <Profile
+            userInfo={userInfo}
+            isSearchOpen={isSearchOpen}
+            logout={logout}
+          />
+        </div>
+      )}
     </div>
   );
 }
