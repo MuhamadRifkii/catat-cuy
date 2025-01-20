@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Profile from "../Cards/Profile";
-import Searchbar from "../Searchbar/Searchbar";
+import Profile from "./Profile";
+import Searchbar from "./Searchbar";
 import { useDispatch } from "react-redux";
-import { resetForm } from "../../store/actions/login.action";
+import { resetForm } from "../store/actions/login.action";
 import { MdClose, MdSearch } from "react-icons/md";
 import { useSpring, animated } from "@react-spring/web";
 

@@ -1,6 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../component/Navbar/Navbar";
+import Navbar from "../../component/Navbar";
 import Password from "../../component/Input/Password";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,9 +81,9 @@ function Login() {
     }
   };
 
-    const handleReset = () => {
-      dispatch(resetForm());
-    };
+  const handleReset = () => {
+    dispatch(resetForm());
+  };
 
   return (
     <>

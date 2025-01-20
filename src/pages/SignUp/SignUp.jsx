@@ -1,4 +1,4 @@
-import Navbar from "../../component/Navbar/Navbar";
+import Navbar from "../../component/Navbar";
 import Password from "../../component/Input/Password";
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";

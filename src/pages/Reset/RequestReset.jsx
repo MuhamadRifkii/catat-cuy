@@ -1,4 +1,4 @@
-import Navbar from "../../component/Navbar/Navbar";
+import Navbar from "../../component/Navbar";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {

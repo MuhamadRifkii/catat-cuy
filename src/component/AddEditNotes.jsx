@@ -11,7 +11,7 @@ import {
   setError,
   addNewNote,
   editNote,
-} from "../../store/actions/note.action";
+} from "../store/actions/note.action";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 

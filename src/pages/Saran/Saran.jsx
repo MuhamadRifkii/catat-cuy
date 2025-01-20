@@ -120,7 +120,6 @@ export default function Home() {
                 title={item.title}
                 date={item.createdAt}
                 content={item.content}
-                isPinned={item.isPinned}
                 onEdit={() => handleEdit(item)}
                 onDelete={() => {
                   handleDelete(item.id);

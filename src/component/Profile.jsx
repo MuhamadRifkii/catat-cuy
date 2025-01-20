@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { getInitials } from "../../utils/helper";
+import { getInitials } from "../utils/helper";
 import { MdMenu, MdClose } from "react-icons/md";
 import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
