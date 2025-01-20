@@ -10,7 +10,7 @@ export default function Searchbar({ value, onChange, onClearSearch }) {
       <input
         type="text"
         placeholder="Cari..."
-        className="w-full text-xs bg-transparent py-[11px] outline-none"
+        className="w-full text-xs bg-transparent py-[10px] outline-none"
         value={value}
         onChange={onChange}
       />

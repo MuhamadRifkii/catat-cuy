@@ -5,11 +5,10 @@ import Profile from "../Cards/Profile";
 import Searchbar from "../Searchbar/Searchbar";
 import { useDispatch } from "react-redux";
 import { resetForm } from "../../store/actions/login.action";
-import { MdClose, MdMenu, MdSearch } from "react-icons/md";
+import { MdClose, MdSearch } from "react-icons/md";
 import { useSpring, animated } from "@react-spring/web";
 
 export default function Navbar({ userInfo, setFilter, filterValue }) {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,11 +22,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
   const onClearSearch = () => {
     setFilter("");
   };
-
-  const rotateHamburger = useSpring({
-    transform: isDropdownOpen ? "rotate(90deg)" : "rotate(0deg)",
-    config: { tension: 300, friction: 25 },
-  });
 
   const rotateSearch = useSpring({
     transform: isSearchOpen ? "rotate(90deg)" : "rotate(0deg)",
@@ -74,21 +68,6 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {!isSearchOpen && userInfo && (
-        <div
-          className="md:hidden flex items-center cursor-pointer"
-          onClick={() => setDropdownOpen(!isDropdownOpen)}
-        >
-          <animated.div style={rotateHamburger}>
-            {isDropdownOpen ? (
-              <MdClose className="text-xl text-slate-800" />
-            ) : (
-              <MdMenu className="text-xl text-slate-800" />
-            )}
-          </animated.div>
-        </div>
-      )}
-
       {userInfo && !isSearchOpen && (
         <div className="hidden md:block">
           <Searchbar
@@ -99,21 +78,13 @@ export default function Navbar({ userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      <div className="hidden md:flex items-center gap-3">
-        <Profile userInfo={userInfo} logout={logout} />
+      <div className="md:flex items-center gap-3">
+        <Profile
+          userInfo={userInfo}
+          isSearchOpen={isSearchOpen}
+          logout={logout}
+        />
       </div>
-
-      {isDropdownOpen && (
-        <div className="absolute top-14 right-0 bg-white border border-gray-300 shadow-lg rounded-md p-3 w-48">
-          <p className="text-sm font-medium text-slate-800">{userInfo?.name}</p>
-          <button
-            className="text-sm text-red-500 w-full text-left mt-2"
-            onClick={logout}
-          >
-            Logout
-          </button>
-        </div>
-      )}
     </div>
   );
 }
