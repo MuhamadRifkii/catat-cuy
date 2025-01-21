@@ -15,7 +15,6 @@ import {
 } from "../../store/actions/saran.action";
 import {
   deleteSaran,
-  pinNote,
   resetForm,
 } from "../../store/actions/note.action";
 import Toast from "../../component/Toast";
@@ -135,10 +134,8 @@ export default function Home() {
                 onDelete={() => {
                   handleDelete(item.id);
                 }}
-                onPinNote={() => {
-                  dispatch(pinNote(item.id, item.isPinned, token));
-                }}
                 onClick={() => handleEdit(item)}
+                isDeletable={item.userId === userInfo.id}
               />
             ))}
           </div>
@@ -183,6 +180,7 @@ export default function Home() {
               }
             />
             <AddEditNotes
+              userInfo={userInfo}
               type={openAddEditModal.type}
               noteData={openAddEditModal.data}
               onClose={() => [

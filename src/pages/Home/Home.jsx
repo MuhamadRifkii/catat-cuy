@@ -169,6 +169,7 @@ export default function Home() {
               }
             />
             <AddEditNotes
+              userInfo={userInfo}
               type={openAddEditModal.type}
               noteData={openAddEditModal.data}
               onClose={() => [

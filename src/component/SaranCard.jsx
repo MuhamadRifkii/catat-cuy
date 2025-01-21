@@ -9,6 +9,7 @@ export const SaranCard = ({
   onEdit,
   onDelete,
   onClick,
+  isDeletable,
 }) => {
   return (
     <div
@@ -42,8 +43,13 @@ export const SaranCard = ({
           />
 
           <MdDelete
-            className="icon-btn hover:text-red-500"
+            className={`icon-btn ${
+              isDeletable
+                ? "hover:text-red-500"
+                : "hover:text-slate-300 cursor-not-allowed"
+            }`}
             onClick={(e) => {
+              if (!isDeletable) return;
               e.stopPropagation();
               onDelete();
             }}

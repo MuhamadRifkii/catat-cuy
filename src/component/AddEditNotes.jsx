@@ -17,7 +17,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
-export default function AddEditNotes({ noteData, type, onClose }) {
+export default function AddEditNotes({ userInfo, noteData, type, onClose }) {
   const dispatch = useDispatch();
   const formRef = useRef(null);
   const [swalActive, setSwalActive] = useState(false);
@@ -27,6 +27,8 @@ export default function AddEditNotes({ noteData, type, onClose }) {
   );
 
   const token = localStorage.getItem("token");
+  const isOwner =
+    type === "add" || type === "add-saran" || noteData?.userId === userInfo?.id;
 
   const LoadingSpinner = useSpring({
     opacity: setIsLoading ? 1 : 0,
@@ -169,8 +171,11 @@ export default function AddEditNotes({ noteData, type, onClose }) {
         {error && <p className="text-red-500 text-xs pt-4">{error}</p>}
 
         <button
-          className="btn-primary font-medium mt-5 p-3"
+          className={`btn-primary font-medium mt-5 p-3 ${
+            !isOwner ? "bg-gray-400 cursor-not-allowed" : ""
+          }`}
           onClick={handleAddNote}
+          disabled={!isOwner}
         >
           {type === "edit" || type === "edit-saran" ? "PERBARUI" : "TAMBAH"}
         </button>
