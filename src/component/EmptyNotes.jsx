@@ -7,8 +7,10 @@ function EmptyNotes({ userInfo, isLoading }) {
   const [errorStatus, setErrorStatus] = useState(null);
 
   useEffect(() => {
-    if (!isLoading && !userInfo) {
+    if (!userInfo && !isLoading) {
       setErrorStatus("Gagal memuat catatan, coba lagi nanti");
+    } else {
+      setErrorStatus(null);
     }
   }, [userInfo, isLoading]);
 

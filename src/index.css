@@ -35,11 +35,9 @@
 
   .no-border-quill .ql-container {
     height: 250px;
-    overflow-y: auto;
     border: 2px solid #ccc;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    outline: none;
   }
 
   .no-border-quill .ql-toolbar {
@@ -55,8 +53,6 @@
     font-family: "Poppins", sans-serif;
     font-size: 1rem;
     line-height: 1.5;
-    border: none !important;
-    outline: none;
   }
 }
 
