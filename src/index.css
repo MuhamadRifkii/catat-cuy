@@ -33,6 +33,11 @@
     overflow-x: hidden;
   }
 
+  .no-border-quill .ql-tooltip,
+  .ql-tooltip input[type="text"] {
+    border-radius: 4px;
+  }
+
   .no-border-quill .ql-container {
     height: 250px;
     border: 2px solid #ccc;
