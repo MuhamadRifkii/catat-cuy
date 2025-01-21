@@ -11,6 +11,8 @@ import {
   setError,
   addNewNote,
   editNote,
+  addNewSaran,
+  editSaran,
 } from "../store/actions/note.action";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -57,8 +59,12 @@ export default function AddEditNotes({ noteData, type, onClose }) {
 
     if (type === "edit" && noteData) {
       dispatch(editNote(noteData.id, title, content, token, onClose));
+    } else if (type === "edit-saran" && noteData) {
+      dispatch(editSaran(noteData.id, title, content, token, onClose));
     } else if (type === "add") {
       dispatch(addNewNote(title, content, token, onClose));
+    } else if (type === "add-saran") {
+      dispatch(addNewSaran(title, content, token, onClose));
     }
   };
 
@@ -166,7 +172,7 @@ export default function AddEditNotes({ noteData, type, onClose }) {
           className="btn-primary font-medium mt-5 p-3"
           onClick={handleAddNote}
         >
-          {type === "edit" ? "PERBARUI" : "TAMBAH"}
+          {type === "edit" || type === "edit-saran" ? "PERBARUI" : "TAMBAH"}
         </button>
       </div>
     </>

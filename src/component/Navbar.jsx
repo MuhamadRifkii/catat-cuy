@@ -62,11 +62,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
             !userInfo && "flex-1 text-center md:text-left"
           }`}
         >
-          <Link
-            to="/"
-            className="cursor-pointer"
-            onClick={() => window.location.reload()}
-          >
+          <Link to="/" className="cursor-pointer">
             <h2>Catat Cuy</h2>
           </Link>
         </div>

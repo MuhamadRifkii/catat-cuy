@@ -1,6 +1,7 @@
 import { actionTypes } from "../actionTypes";
 import { setAllNotes, setToast } from "./home.action";
 import { setLoading } from "./login.action";
+import { setAllSaran } from "./saran.action";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -73,6 +74,51 @@ export const addNewNote =
     }
   };
 
+export const addNewSaran =
+  (title, content, token, onClose) => async (dispatch) => {
+    dispatch(setIsLoading(true));
+    try {
+      const response = await fetch(`${baseUrl}/api/v2/saran/add-note`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, content }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to add note");
+      }
+
+      if (result.note) {
+        onClose();
+        await dispatch(setAllSaran(token));
+        dispatch(
+          setToast({
+            isShown: true,
+            message: "Saran Berhasil Ditambahkan!",
+            type: "success",
+          })
+        );
+        dispatch(resetForm());
+      }
+    } catch (error) {
+      dispatch(setError(error.message || "An unexpected error occurred"));
+      dispatch(
+        setToast({
+          isShown: true,
+          message: error.message || "An error occurred.",
+          type: "error",
+        })
+      );
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+
 export const editNote =
   (noteId, title, content, token, onClose) => async (dispatch) => {
     dispatch(setIsLoading(true));
@@ -121,6 +167,54 @@ export const editNote =
     }
   };
 
+export const editSaran =
+  (noteId, title, content, token, onClose) => async (dispatch) => {
+    dispatch(setIsLoading(true));
+    try {
+      const response = await fetch(
+        `${baseUrl}/api/v2/saran/edit-note/${noteId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title, content }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to update note");
+      }
+
+      if (result.note) {
+        onClose();
+        await dispatch(setAllSaran(token));
+        dispatch(
+          setToast({
+            isShown: true,
+            message: "Saran Berhasil Diperbarui!",
+            type: "success",
+          })
+        );
+        dispatch(resetForm());
+      }
+    } catch (error) {
+      dispatch(setError(error.message || "An unexpected error occurred"));
+      dispatch(
+        setToast({
+          isShown: true,
+          message: error.message || "An error occurred.",
+          type: "error",
+        })
+      );
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+
 export const deleteNote = (noteId, token) => {
   return async (dispatch) => {
     dispatch(setLoading(true));
@@ -145,6 +239,48 @@ export const deleteNote = (noteId, token) => {
           setToast({
             isShown: true,
             message: "Catatan Berhasil Dihapus!",
+            type: "delete",
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        setToast({
+          isShown: true,
+          message: error.message || "An error occurred.",
+          type: "error",
+        })
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const deleteSaran = (noteId, token) => {
+  return async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const response = await fetch(`${baseUrl}/api/v2/saran/delete/${noteId}`, {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to delete note");
+      }
+
+      if (!result.error) {
+        await dispatch(setAllSaran(token));
+        dispatch(
+          setToast({
+            isShown: true,
+            message: "Saran Berhasil Dihapus!",
             type: "delete",
           })
         );

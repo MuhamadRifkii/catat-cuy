@@ -3,9 +3,11 @@ import { getInitials } from "../utils/helper";
 import { MdMenu, MdClose } from "react-icons/md";
 import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Profile({ userInfo, isSearchOpen, logout }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
 
   const rotateHamburger = useSpring({
     transform: isDropdownOpen ? "rotate(90deg)" : "rotate(0deg)",
@@ -41,6 +43,19 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
               <p className="text-sm font-medium text-slate-800">
                 {userInfo?.name}
               </p>
+              {location.pathname === "/dashboard" ? (
+                <Link to="/saran" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Saran
+                  </p>
+                </Link>
+              ) : location.pathname === "/saran" ? (
+                <Link to="/dashboard" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Dashboard
+                  </p>
+                </Link>
+              ) : null}
               <button
                 className="text-sm text-red-500 w-full text-left mt-2"
                 onClick={logout}

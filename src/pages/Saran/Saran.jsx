@@ -1,20 +1,20 @@
 import { useSpring, animated } from "@react-spring/web";
 import { MdAdd } from "react-icons/md";
-import { NoteCard } from "../../component/NoteCard";
+import { SaranCard } from "../../component/SaranCard.jsx";
 import Navbar from "../../component/Navbar";
 import AddEditNotes from "../../component/AddEditNotes";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setAllNotes,
   setUserInfo,
   setFilter,
   setOpenAddEditModal,
   setToast,
-} from "../../store/actions/home.action";
+  setAllSaran,
+} from "../../store/actions/saran.action";
 import {
-  deleteNote,
+  deleteSaran,
   pinNote,
   resetForm,
 } from "../../store/actions/note.action";
@@ -48,7 +48,11 @@ export default function Home() {
 
   const handleEdit = (noteDetails) => {
     dispatch(
-      setOpenAddEditModal({ isShown: true, data: noteDetails, type: "edit" })
+      setOpenAddEditModal({
+        isShown: true,
+        data: noteDetails,
+        type: "edit-saran",
+      })
     );
   };
 
@@ -66,7 +70,7 @@ export default function Home() {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteNote(noteId, token));
+        dispatch(deleteSaran(noteId, token));
       }
     });
   };
@@ -77,7 +81,14 @@ export default function Home() {
       if (token) {
         try {
           await dispatch(setUserInfo(token, navigate));
-          await dispatch(setAllNotes(token));
+          await dispatch(setAllSaran(token));
+
+          Swal.fire({
+            title: "Selamat datang di halaman saran!",
+            text: "Berikan saran dan masukan kamu pada pengembang agar aplikasi ini dapat lebih berkembang lagi!",
+            icon: "info",
+            confirmButtonText: "Oke",
+          });
         } catch (error) {
           console.error("Error loading data:", error);
         }
@@ -115,7 +126,7 @@ export default function Home() {
         {allNotes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredNotes.map((item) => (
-              <NoteCard
+              <SaranCard
                 key={item.id}
                 title={item.title}
                 date={item.createdAt}
@@ -141,7 +152,11 @@ export default function Home() {
           className="fixed bottom-8 right-8 w-16 h-16 flex items-center justify-center rounded-full bg-primary shadow-lg hover:bg-blue-600 z-50"
           onClick={() => {
             dispatch(
-              setOpenAddEditModal({ isShown: true, type: "add", data: null })
+              setOpenAddEditModal({
+                isShown: true,
+                type: "add-saran",
+                data: null,
+              })
             );
           }}
         >
@@ -161,7 +176,7 @@ export default function Home() {
                 dispatch(
                   setOpenAddEditModal({
                     isShown: false,
-                    type: "add",
+                    type: "add-saran",
                     data: null,
                   })
                 )
@@ -174,7 +189,7 @@ export default function Home() {
                 dispatch(
                   setOpenAddEditModal({
                     isShown: false,
-                    type: "add",
+                    type: "add-saran",
                     data: null,
                   })
                 ),
