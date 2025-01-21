@@ -56,6 +56,7 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
                   </p>
                 </Link>
               ) : null}
+              <div className="border-t border-gray-300 flex-grow mt-4"></div>
               <button
                 className="text-sm text-red-500 w-full text-left mt-2"
                 onClick={logout}
