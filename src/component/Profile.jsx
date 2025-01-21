@@ -1,21 +1,40 @@
 /* eslint-disable react/prop-types */
 import { getInitials } from "../utils/helper";
 import { MdMenu, MdClose } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Profile({ userInfo, isSearchOpen, logout }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
+  const dropdownRef = useRef(null);
 
   const rotateHamburger = useSpring({
     transform: isDropdownOpen ? "rotate(90deg)" : "rotate(0deg)",
     config: { tension: 300, friction: 25 },
   });
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3" ref={dropdownRef}>
       {userInfo && (
         <div className="hidden md:flex w-12 h-12 items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100">
           {getInitials(userInfo?.name)}
