@@ -21,6 +21,11 @@ import {
 import Toast from "../../component/Toast";
 import EmptyNotes from "../../component/EmptyNotes";
 import Swal from "sweetalert2";
+import moment from "moment";
+
+const formatDate = (date) => {
+  return moment(date).format("DD MMM YYYY");
+};
 
 export default function Home() {
   const { isLoading, userInfo, allNotes, filter, openAddEditModal, toast } =
@@ -95,6 +100,18 @@ export default function Home() {
       note.content.toLowerCase().includes(filter.toLowerCase())
   );
 
+  const pinnedNotes = filteredNotes.filter((note) => note.isPinned);
+  const groupedNotes = filteredNotes
+    .filter((note) => !note.isPinned)
+    .reduce((groups, note) => {
+      const noteDate = formatDate(note.createdAt);
+      if (!groups[noteDate]) {
+        groups[noteDate] = [];
+      }
+      groups[noteDate].push(note);
+      return groups;
+    }, {});
+
   return (
     <>
       <animated.div
@@ -112,26 +129,56 @@ export default function Home() {
       />
 
       <div className="container mx-auto my-4 px-4">
-        {allNotes.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredNotes.map((item) => (
-              <NoteCard
-                key={item.id}
-                title={item.title}
-                date={item.createdAt}
-                content={item.content}
-                isPinned={item.isPinned}
-                onEdit={() => handleEdit(item)}
-                onDelete={() => {
-                  handleDelete(item.id);
-                }}
-                onPinNote={() => {
-                  dispatch(pinNote(item.id, item.isPinned, token));
-                }}
-                onClick={() => handleEdit(item)}
-              />
-            ))}
+        {pinnedNotes.length > 0 && (
+          <div>
+            <h3 className="font-semibold text-lg my-2">Disematkan</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-10">
+              {pinnedNotes.map((item) => (
+                <NoteCard
+                  key={item.id}
+                  title={item.title}
+                  date={item.createdAt}
+                  content={item.content}
+                  isPinned={item.isPinned}
+                  onEdit={() => handleEdit(item)}
+                  onDelete={() => {
+                    handleDelete(item.id);
+                  }}
+                  onPinNote={() => {
+                    dispatch(pinNote(item.id, item.isPinned, token));
+                  }}
+                  onClick={() => handleEdit(item)}
+                />
+              ))}
+            </div>
           </div>
+        )}
+
+        {Object.keys(groupedNotes).length > 0 ? (
+          Object.keys(groupedNotes).map((date) => (
+            <div key={date}>
+              <h3 className="font-semibold text-lg my-2">{date}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-10">
+                {groupedNotes[date].map((item) => (
+                  <NoteCard
+                    key={item.id}
+                    title={item.title}
+                    date={item.createdAt}
+                    content={item.content}
+                    isPinned={item.isPinned}
+                    onEdit={() => handleEdit(item)}
+                    onDelete={() => {
+                      handleDelete(item.id);
+                    }}
+                    onPinNote={() => {
+                      dispatch(pinNote(item.id, item.isPinned, token));
+                    }}
+                    onClick={() => handleEdit(item)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))
         ) : (
           <EmptyNotes userInfo={userInfo} isLoading={isLoading} />
         )}

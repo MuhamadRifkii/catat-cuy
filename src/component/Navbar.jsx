@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Profile from "./Profile";
+import Menu from "./Menu";
 import Searchbar from "./Searchbar";
 import { useDispatch } from "react-redux";
 import { resetForm } from "../store/actions/login.action";
@@ -58,7 +58,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
 
       {!isSearchOpen && (
         <div
-          className={`sm:text-xl text-sm font-medium text-black py-2 ${
+          className={`sm:text-xl text-lg font-medium text-black py-2 ${
             !userInfo && "flex-1 text-center md:text-left"
           }`}
         >
@@ -90,7 +90,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
 
       {token && (
         <div className="md:flex items-center gap-3">
-          <Profile
+          <Menu
             userInfo={userInfo}
             isSearchOpen={isSearchOpen}
             logout={logout}
