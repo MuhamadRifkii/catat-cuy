@@ -66,7 +66,14 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
                   {userInfo?.name}
                 </p>
               </Link>
-              {location.pathname === "/dashboard" ? (
+
+              {location.pathname === "/profile" ? (
+                <Link to="/dashboard" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Dashboard
+                  </p>
+                </Link>
+              ) : location.pathname === "/dashboard" ? (
                 <Link to="/saran" className="cursor-pointer">
                   <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
                     Saran
@@ -78,32 +85,14 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
                     Dashboard
                   </p>
                 </Link>
-              ) : location.pathname === "/pengaturan" ? (
-                <Link to="/saran" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
-                    Saran
-                  </p>
-                </Link>
               ) : null}
-              {location.pathname === "/dashboard" ? (
-                <Link to="/pengaturan" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
-                    Pengaturan
-                  </p>
-                </Link>
-              ) : location.pathname === "/pengaturan" ? (
-                <Link to="/dashboard" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
-                    Dashboard
-                  </p>
-                </Link>
-              ) : location.pathname === "/saran" ? (
-                <Link to="/pengaturan" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
-                    Pengaturan
-                  </p>
-                </Link>
-              ) : null}
+
+              <Link to="/pengaturan" className="cursor-pointer">
+                <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                  Pengaturan
+                </p>
+              </Link>
+
               <div className="border-t border-gray-300 flex-grow mt-4"></div>
               <button
                 className="text-sm text-red-500 w-full text-left mt-2"
