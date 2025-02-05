@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 
 export default function Searchbar({ value, onChange, onClearSearch }) {
   return (
-    <div className="w-80 flex items-center px-4 bg-slate-100 rounded-lg border hover:shadow-lg focus-within:shadow-xl focus-within:border-blue-500 focus-within:outline-none">
+    <div className="w-80 flex items-center px-4 bg-slate-100 rounded-lg border shadow-md hover:shadow-lg focus-within:shadow-xl focus-within:border-blue-500 focus-within:outline-none">
       <FaMagnifyingGlass className="text-gray-400 cursor-pointer hover:text-black mr-3" />
 
       <input
