@@ -15,7 +15,7 @@ import { resetForm } from "../../store/actions/login.action";
 import { useSpring, animated } from "@react-spring/web";
 import Swal from "sweetalert2";
 
-function Reset() {
+function ChangePassword() {
   const { email, otp, newPassword, error, isLoading } = useSelector(
     (state) => state.resetReducer
   );
@@ -94,7 +94,7 @@ function Reset() {
       <div className="flex items-center justify-center mt-28">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form onSubmit={handleLogin}>
-            <h4 className="text-2xl mb-7 ">Reset Password</h4>
+            <h4 className="text-2xl mb-7 ">Ganti Password</h4>
 
             <input
               type="text"
@@ -122,7 +122,7 @@ function Reset() {
             {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
 
             <button type="submit" className="btn-primary">
-              Reset Password
+              Ganti Password
             </button>
           </form>
         </div>
@@ -131,4 +131,4 @@ function Reset() {
   );
 }
 
-export default Reset;
+export default ChangePassword;

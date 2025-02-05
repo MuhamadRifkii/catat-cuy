@@ -35,6 +35,66 @@ export const setUserInfo = (token, navigate) => {
       });
     } catch (error) {
       console.error("Error fetching user info:", error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const updateUserInfo = (token, formData, navigate) => {
+  return async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const response = await fetch(`${baseUrl}/api/v2/auth/update-user`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+        return;
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update user info");
+      }
+
+      const data = await response.json();
+
+      dispatch({
+        type: actionTypes.SET_USER_INFO,
+        payload: data.user,
+      });
+
+      dispatch(
+        setToast({
+          isShown: true,
+          message: "Profile updated successfully!",
+          type: "success",
+        })
+      );
+    } catch (error) {
+      console.error("Update error:", error);
+      dispatch(
+        setToast({
+          isShown: true,
+          message: error.message || "Failed to update profile",
+          type: "error",
+        })
+      );
+
+      if (error.message.includes("401")) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 };

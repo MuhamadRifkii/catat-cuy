@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Profile({ userInfo, isSearchOpen, logout }) {
+export default function Menu({ userInfo, isSearchOpen, logout }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const dropdownRef = useRef(null);
@@ -37,7 +37,9 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
     <div className="flex items-center gap-3" ref={dropdownRef}>
       {userInfo && (
         <div className="hidden md:flex w-12 h-12 items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100">
-          {getInitials(userInfo?.name)}
+          <Link to="/profile" className="cursor-pointer">
+            {getInitials(userInfo?.name)}
+          </Link>
         </div>
       )}
       {!isSearchOpen && (
@@ -59,9 +61,11 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
         <div className="absolute top-14 right-0 bg-white border border-gray-300 shadow-lg rounded-md p-3 w-48">
           {userInfo ? (
             <>
-              <p className="text-sm font-medium text-slate-800">
-                {userInfo?.name}
-              </p>
+              <Link to="/profile" className="cursor-pointer">
+                <p className="text-sm font-medium text-slate-800">
+                  {userInfo?.name}
+                </p>
+              </Link>
               {location.pathname === "/dashboard" ? (
                 <Link to="/saran" className="cursor-pointer">
                   <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
@@ -72,6 +76,31 @@ export default function Profile({ userInfo, isSearchOpen, logout }) {
                 <Link to="/dashboard" className="cursor-pointer">
                   <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
                     Dashboard
+                  </p>
+                </Link>
+              ) : location.pathname === "/pengaturan" ? (
+                <Link to="/saran" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Saran
+                  </p>
+                </Link>
+              ) : null}
+              {location.pathname === "/dashboard" ? (
+                <Link to="/pengaturan" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Pengaturan
+                  </p>
+                </Link>
+              ) : location.pathname === "/pengaturan" ? (
+                <Link to="/dashboard" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Dashboard
+                  </p>
+                </Link>
+              ) : location.pathname === "/saran" ? (
+                <Link to="/pengaturan" className="cursor-pointer">
+                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                    Pengaturan
                   </p>
                 </Link>
               ) : null}

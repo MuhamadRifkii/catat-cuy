@@ -90,7 +90,7 @@ export const addNewSaran =
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to add note");
+        throw new Error(result.message || "Gagal Menambahkan Saran");
       }
 
       if (result.note) {
@@ -138,7 +138,7 @@ export const editNote =
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to update note");
+        throw new Error(result.message || "Gagal Memperbarui Catatan");
       }
 
       if (result.note) {
@@ -186,7 +186,7 @@ export const editSaran =
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to update note");
+        throw new Error(result.message || "Gagal Memperbarui Saran");
       }
 
       if (result.note) {
@@ -230,7 +230,7 @@ export const deleteNote = (noteId, token) => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to delete note");
+        throw new Error(result.message || "Gagal Menghapus Catatan");
       }
 
       if (!result.error) {
@@ -272,7 +272,7 @@ export const deleteSaran = (noteId, token) => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to delete note");
+        throw new Error(result.message || "Gagal Menghapus Saran");
       }
 
       if (!result.error) {
@@ -318,7 +318,7 @@ export const pinNote = (noteId, isPinned, token) => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Failed to pin note");
+        throw new Error(result.message || "Gagal Menyematkan Catatan");
       }
 
       if (!result.error) {
@@ -326,7 +326,9 @@ export const pinNote = (noteId, isPinned, token) => {
         dispatch(
           setToast({
             isShown: true,
-            message: `Note ${!isPinned ? "Pinned" : "Unpinned"} Successfully!`,
+            message: `Catatan Berhasil ${
+              !isPinned ? "Disematkan" : "Tidak Disematkan"
+            }!`,
           })
         );
       }

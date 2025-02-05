@@ -5,11 +5,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
+import Profile from "./pages/Profile/Profile";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Reset from "./pages/Reset/Reset";
 import RequestReset from "./pages/Reset/RequestReset";
 import Saran from "./pages/Saran/Saran";
+import Settings from "./pages/Settings/Settings";
+import ChangePassword from "./pages/Profile/ChangePassword";
 
 const routes = (
   <Router>
@@ -29,7 +32,10 @@ const routes = (
       <Route path="/reset" exact element={<Reset />} />
       <Route path="/request-reset" exact element={<RequestReset />} />
       <Route path="/dashboard" exact element={<Home />} />
+      <Route path="/profile" exact element={<Profile />} />
       <Route path="/saran" exact element={<Saran />} />
+      <Route path="/pengaturan" exact element={<Settings />} />
+      <Route path="/ganti-password" exact element={<ChangePassword />} />
     </Routes>
   </Router>
 );
