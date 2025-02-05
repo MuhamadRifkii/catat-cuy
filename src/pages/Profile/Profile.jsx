@@ -135,7 +135,7 @@ export default function Profile() {
 
       <div className="mx-auto mt-4 px-4">
         <div
-          className="flex items-center gap-2 cursor-pointer"
+          className="inline-flex items-center gap-2 cursor-pointer"
           onClick={() => navigate(-1)}
         >
           <IoArrowBack className="text-2xl text-gray-700" />
