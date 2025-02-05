@@ -13,6 +13,7 @@ import RequestReset from "./pages/Reset/RequestReset";
 import Saran from "./pages/Saran/Saran";
 import Settings from "./pages/Settings/Settings";
 import ChangePassword from "./pages/Profile/ChangePassword";
+import { Analytics } from "@vercel/analytics/react";
 
 const routes = (
   <Router>
@@ -41,5 +42,10 @@ const routes = (
 );
 
 export default function App() {
-  return <div>{routes}</div>;
+  return (
+    <div>
+      {routes}
+      <Analytics />
+    </div>
+  );
 }
