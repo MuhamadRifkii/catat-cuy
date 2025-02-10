@@ -7,9 +7,11 @@ import { useDispatch } from "react-redux";
 import { resetForm } from "../store/actions/login.action";
 import { MdClose, MdSearch } from "react-icons/md";
 import { useSpring, animated } from "@react-spring/web";
+import { AnimatePresence } from "framer-motion";
 
 export default function Navbar({ token, userInfo, setFilter, filterValue }) {
   const [isSearchOpen, setSearchOpen] = useState(false);
+  const [showAppName, setShowAppName] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,8 +30,21 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
     config: { tension: 300, friction: 25 },
   });
 
+  const openSearch = () => {
+    if (userInfo) {
+      setShowAppName(false);
+      setSearchOpen(true);
+    }
+  };
+
+  const closeSearch = () => {
+    if (userInfo) {
+      setSearchOpen(false);
+    }
+  };
+
   return (
-    <div className="sticky top-0 z-50 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
+    <div className="sticky top-0 z-50 h-14 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
       {token && (
         <div className="md:hidden flex items-center">
           <animated.div style={rotateSearch}>
@@ -40,7 +55,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
                     ? "text-slate-800 cursor-pointer"
                     : "text-slate-400 cursor-not-allowed"
                 }`}
-                onClick={() => userInfo && setSearchOpen(true)}
+                onClick={openSearch}
               />
             ) : (
               <MdClose
@@ -49,17 +64,17 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
                     ? "text-slate-800 cursor-pointer"
                     : "text-slate-400 cursor-not-allowed"
                 }`}
-                onClick={() => userInfo && setSearchOpen(false)}
+                onClick={closeSearch}
               />
             )}
           </animated.div>
         </div>
       )}
 
-      {!isSearchOpen && (
+      {showAppName && (
         <div
-          className={`sm:text-xl text-lg font-medium text-black py-2 ${
-            !userInfo && "flex-1 text-center md:text-left"
+          className={`sm:text-xl text-lg font-medium text-black ${
+            !userInfo && "relative flex-1 text-center md:text-left"
           }`}
         >
           <Link to="/" className="cursor-pointer">
@@ -68,15 +83,17 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
         </div>
       )}
 
-      {isSearchOpen && userInfo && (
-        <div className="flex-grow mx-4">
-          <Searchbar
-            value={filterValue}
-            onChange={(e) => setFilter(e.target.value)}
-            onClearSearch={onClearSearch}
-          />
-        </div>
-      )}
+      <AnimatePresence onExitComplete={() => setShowAppName(true)}>
+        {isSearchOpen && userInfo && (
+          <div className="flex-grow mx-4">
+            <Searchbar
+              value={filterValue}
+              onChange={(e) => setFilter(e.target.value)}
+              onClearSearch={onClearSearch}
+            />
+          </div>
+        )}
+      </AnimatePresence>
 
       {userInfo && !isSearchOpen && (
         <div className="hidden md:block">
@@ -90,11 +107,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
 
       {token && (
         <div className="md:flex items-center gap-3">
-          <Menu
-            userInfo={userInfo}
-            isSearchOpen={isSearchOpen}
-            logout={logout}
-          />
+          <Menu userInfo={userInfo} logout={logout} />
         </div>
       )}
     </div>
