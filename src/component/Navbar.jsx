@@ -44,26 +44,24 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
   };
 
   return (
-    <div className="sticky top-0 z-50 h-14 bg-white flex items-center justify-between px-6 py-2 drop-shadow">
+    <div className="sticky top-0 z-50 h-14 bg-[var(--bg-color)] bottom-border flex items-center justify-between px-6 py-2 drop-shadow">
       {token && (
         <div className="md:hidden flex items-center">
           <animated.div style={rotateSearch}>
             {!isSearchOpen ? (
               <MdSearch
                 className={`text-xl ${
-                  userInfo
-                    ? "text-slate-800 cursor-pointer"
-                    : "text-slate-400 cursor-not-allowed"
+                  userInfo ? "cursor-pointer" : "cursor-not-allowed"
                 }`}
+                style={{ color: "var(--main)" }}
                 onClick={openSearch}
               />
             ) : (
               <MdClose
                 className={`text-xl ${
-                  userInfo
-                    ? "text-slate-800 cursor-pointer"
-                    : "text-slate-400 cursor-not-allowed"
+                  userInfo ? "cursor-pointer" : "cursor-not-allowed"
                 }`}
+                style={{ color: "var(--main)" }}
                 onClick={closeSearch}
               />
             )}
@@ -78,7 +76,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
           }`}
         >
           <Link to="/" className="cursor-pointer">
-            <h2>Catat Cuy</h2>
+            <h2 style={{ color: "var(--main)" }}>Catat Cuy</h2>
           </Link>
         </div>
       )}

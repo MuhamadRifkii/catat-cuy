@@ -14,6 +14,7 @@ import Saran from "./pages/Saran/Saran";
 import Settings from "./pages/Settings/Settings";
 import ChangePassword from "./pages/Profile/ChangePassword";
 import { Analytics } from "@vercel/analytics/react";
+import { useEffect } from "react";
 
 const routes = (
   <Router>
@@ -42,6 +43,14 @@ const routes = (
 );
 
 export default function App() {
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
   return (
     <div>
       {routes}

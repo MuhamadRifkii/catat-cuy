@@ -49,46 +49,61 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
         >
           <animated.div style={rotateHamburger}>
             {isDropdownOpen ? (
-              <MdClose className="text-xl text-slate-800" />
+              <MdClose className="text-xl" style={{ color: "var(--main)" }} />
             ) : (
-              <MdMenu className="text-xl text-slate-800" />
+              <MdMenu className="text-xl" style={{ color: "var(--main)" }} />
             )}
           </animated.div>
         </div>
       )}
 
       {isDropdownOpen && (
-        <div className="absolute top-14 right-0 bg-white border border-gray-300 shadow-lg rounded-md p-3 w-48">
+        <div className="absolute top-14 right-0 bg-[var(--searchbar-bg)] shadow-lg rounded-md p-3 w-48">
           {userInfo ? (
             <>
               <Link to="/profile" className="cursor-pointer">
-                <p className="text-sm font-medium text-slate-800">
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: "var(--main)" }}
+                >
                   {userInfo?.name}
                 </p>
               </Link>
 
               {location.pathname === "/profile" ? (
                 <Link to="/dashboard" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                  <p
+                    className="text-sm font-medium w-full text-left mt-2"
+                    style={{ color: "var(--main)" }}
+                  >
                     Dashboard
                   </p>
                 </Link>
               ) : location.pathname === "/dashboard" ? (
                 <Link to="/saran" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                  <p
+                    className="text-sm font-medium w-full text-left mt-2"
+                    style={{ color: "var(--main)" }}
+                  >
                     Saran
                   </p>
                 </Link>
               ) : location.pathname === "/saran" ? (
                 <Link to="/dashboard" className="cursor-pointer">
-                  <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                  <p
+                    className="text-sm font-medium w-full text-left mt-2"
+                    style={{ color: "var(--main)" }}
+                  >
                     Dashboard
                   </p>
                 </Link>
               ) : null}
 
               <Link to="/pengaturan" className="cursor-pointer">
-                <p className="text-sm font-medium text-slate-800 w-full text-left mt-2">
+                <p
+                  className="text-sm font-medium w-full text-left mt-2"
+                  style={{ color: "var(--main)" }}
+                >
                   Pengaturan
                 </p>
               </Link>

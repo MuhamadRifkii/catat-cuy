@@ -20,7 +20,10 @@ function EmptyNotes({ userInfo, isLoading }) {
         <div className="relative">
           <FiFileText className="text-[#c7c7c7] w-40 h-40 animate-pulse" />
         </div>
-        <p className="w-1/2 text-sm font-medium text-slate-700 text-center leading-7 mt-5">
+        <p
+          className="w-1/2 text-sm font-medium text-center leading-7 mt-5"
+          style={{ color: "var(--text-color)" }}
+        >
           Sedang memuat catatan...
         </p>
       </div>
@@ -38,7 +41,10 @@ function EmptyNotes({ userInfo, isLoading }) {
               className="absolute bottom-0 right-0 transform translate-x-0 translate-y-2"
             />
           </div>
-          <p className="w-1/2 text-sm font-medium text-slate-700 text-center leading-7 mt-5">
+          <p
+            className="w-1/2 text-sm font-medium text-center leading-7 mt-5"
+            style={{ color: "var(--text-color)" }}
+          >
             Mulai Tambahkan Catatan! Klik Tombol &apos;+&apos;!
           </p>
         </>

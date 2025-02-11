@@ -29,7 +29,17 @@ export const NoteCard = ({
   // Generate a random background color only if the note is pinned
   const backgroundColor = isPinned
     ? `hsl(${Math.floor(Math.random() * 180)}, 70%, 90%)`
-    : "white";
+    : "var(--card-bg)";
+
+  const titleStyle = isPinned
+    ? { color: "#1f2937" }
+    : { color: "var(--card-title-text)" };
+  const dateStyle = isPinned
+    ? { color: "#6b7280" }
+    : { color: "var(--card-date-text)" };
+  const contentStyle = isPinned
+    ? { color: "#4b5563" }
+    : { color: "var(--card-content-text)" };
 
   return (
     <div
@@ -37,12 +47,14 @@ export const NoteCard = ({
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ backgroundColor }}
+      style={{ backgroundColor, borderColor: "var(--card-border-color)" }}
     >
       <div className="flex items-center justify-between">
         <div>
-          <h6 className="text-sm font-medium">{title}</h6>
-          <span className="text-xs text-slate-500 ">
+          <h6 className="text-sm font-medium" style={titleStyle}>
+            {title}
+          </h6>
+          <span className="text-xs" style={dateStyle}>
             {moment(date).format("DD MMM YYYY")}
           </span>
         </div>
@@ -63,11 +75,12 @@ export const NoteCard = ({
       </div>
 
       <div
-        className="text-xs text-slate-600 mt-2 overflow-hidden whitespace-nowrap text-ellipsis max-w-full"
+        className="text-xs mt-2 overflow-hidden whitespace-nowrap text-ellipsis max-w-full"
         style={{
           display: "-webkit-box",
           WebkitLineClamp: 1,
           WebkitBoxOrient: "vertical",
+          ...contentStyle,
         }}
         dangerouslySetInnerHTML={{ __html: content }}
       ></div>
