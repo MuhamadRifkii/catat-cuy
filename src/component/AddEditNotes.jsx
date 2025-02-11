@@ -78,6 +78,8 @@ export default function AddEditNotes({ userInfo, noteData, type, onClose }) {
           title: "Buang perubahan?",
           text: "Perubahan yang belum disimpan akan hilang.",
           icon: "warning",
+          color: "var(--main)",
+          background: "var(--bg-color)",
           showCancelButton: true,
           confirmButtonText: "Ya, buang",
           cancelButtonText: "Batal",

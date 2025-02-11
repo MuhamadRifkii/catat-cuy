@@ -68,10 +68,12 @@ function Reset() {
       </animated.div>
       <Navbar />
 
-      <div className="flex items-center justify-center mt-28">
-        <div className="w-96 border rounded bg-white px-7 py-10">
+      <div className="flex items-center justify-center my-[25vh]">
+        <div className="w-96 shadow-2xl rounded px-7 py-10">
           <form onSubmit={handleRequest}>
-            <h4 className="text-2xl mb-7 ">Reset Password</h4>
+            <h4 className="text-2xl mb-7" style={{ color: "var(--main)" }}>
+              Reset Password
+            </h4>
 
             <input
               type="text"
@@ -79,6 +81,7 @@ function Reset() {
               placeholder="Email"
               className="input-container"
               value={email}
+              style={{ color: "var(--main)" }}
               onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 

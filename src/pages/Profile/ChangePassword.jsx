@@ -55,6 +55,8 @@ function ChangePassword() {
         Swal.fire({
           title: "Reset Password!",
           text: "Password anda berhasil diubah!",
+          color: "var(--main)",
+          background: "var(--bg-color)",
           timer: 3000,
           icon: "success",
           confirmButtonText: "OK",
@@ -91,10 +93,12 @@ function ChangePassword() {
       </animated.div>
       <Navbar />
 
-      <div className="flex items-center justify-center mt-28">
-        <div className="w-96 border rounded bg-white px-7 py-10">
+      <div className="flex items-center justify-center my-[15vh]">
+        <div className="w-96 shadow-2xl rounded px-7 py-10">
           <form onSubmit={handleLogin}>
-            <h4 className="text-2xl mb-7 ">Ganti Password</h4>
+            <h4 className="text-2xl mb-7" style={{ color: "var(--main)" }}>
+              Ganti Password
+            </h4>
 
             <input
               type="text"
@@ -102,6 +106,7 @@ function ChangePassword() {
               placeholder="Email"
               className="input-container"
               value={email}
+              style={{ color: "var(--main)" }}
               onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 
@@ -110,6 +115,7 @@ function ChangePassword() {
               placeholder="Kode OTP"
               className="input-container"
               value={otp}
+              style={{ color: "var(--main)" }}
               onChange={(e) => dispatch(setOTP(e.target.value))}
             />
 

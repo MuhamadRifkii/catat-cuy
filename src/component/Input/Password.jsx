@@ -16,6 +16,7 @@ export default function Password({ value, onChange, placeholder }) {
         onChange={onChange}
         type={isPasswordShown ? "text" : "password"}
         placeholder={placeholder || "Password"}
+        style={{ color: "var(--main)" }}
         className="w-full text-sm bg-transparent py-3 mr-3 rounded outline-none "
       />
 

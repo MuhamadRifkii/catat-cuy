@@ -56,6 +56,8 @@ export default function Home() {
     Swal.fire({
       title: "Hapus catatan?",
       icon: "warning",
+      color: "var(--main)",
+      background: "var(--bg-color)",
       showDenyButton: true,
       denyButtonText: "Batal",
       confirmButtonText: "Hapus",
@@ -83,6 +85,8 @@ export default function Home() {
             title: "Selamat datang di halaman saran!",
             text: "Berikan saran dan masukan kamu pada pengembang agar aplikasi ini dapat lebih berkembang lagi!",
             icon: "info",
+            color: "var(--main)",
+            background: "var(--bg-color)",
             confirmButtonText: "Oke",
           });
         } catch (error) {

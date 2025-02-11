@@ -61,6 +61,8 @@ export default function Home() {
     Swal.fire({
       title: "Hapus catatan?",
       icon: "warning",
+      color: "var(--main)",
+      background: "var(--bg-color)",
       showDenyButton: true,
       denyButtonText: "Batal",
       confirmButtonText: "Hapus",
@@ -193,7 +195,7 @@ export default function Home() {
             );
           }}
         >
-          <MdAdd className="text-[32px] text-white" />
+          <MdAdd className="text-[32px] " style={{ color: "var(--button)" }} />
         </button>
       )}
 

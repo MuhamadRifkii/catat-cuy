@@ -14,6 +14,9 @@ import {
 } from "../../store/actions/signUp.action";
 import { useSpring, animated } from "@react-spring/web";
 import Swal from "sweetalert2";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import { googleLogin } from "../../store/actions/login.action";
 
 export default function SignUp() {
   const { name, email, password, error, isLoading } = useSelector(
@@ -55,6 +58,8 @@ export default function SignUp() {
         Swal.fire({
           title: "Registrasi Berhasi!",
           text: "Akun ada Berhasil dibuat!. Anda akan diarahkan kehalaman dashboard.",
+          color: "var(--main)",
+          background: "var(--bg-color)",
           timer: 2000,
           icon: "success",
           confirmButtonText: "OK",
@@ -77,6 +82,22 @@ export default function SignUp() {
     }
   };
 
+  const handleGoogleLogin = async (response) => {
+    try {
+      dispatch(setLoading(true));
+      const result = await dispatch(googleLogin(response));
+
+      if (result?.success) {
+        localStorage.setItem("token", result.data.token);
+        navigate("/dashboard");
+      }
+    } catch {
+      dispatch(setError("Google Login Failed"));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   const handleReset = () => {
     dispatch(resetForm());
   };
@@ -90,10 +111,15 @@ export default function SignUp() {
         <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" />
       </animated.div>
       <Navbar />
-      <div className="flex items-center justify-center mt-28">
-        <div className="w-96 border rounded bg-white px-7 py-10">
+      <div className="flex items-center justify-center my-[10vh]">
+        <div
+          className="w-96 shadow-2xl rounded px-7 py-8"
+          style={{ backgroundColor: "var(--bg-color)" }}
+        >
           <form onSubmit={handleSignUp}>
-            <h4 className="text-2xl mb-7">Buat Akun</h4>
+            <h4 className="text-2xl mb-7" style={{ color: "var(--main)" }}>
+              Buat Akun
+            </h4>
 
             <input
               type="text"
@@ -101,6 +127,7 @@ export default function SignUp() {
               placeholder="Nama"
               className="input-container"
               value={name}
+              style={{ color: "var(--main)" }}
               onChange={(e) => dispatch(setName(e.target.value))}
             />
 
@@ -110,6 +137,7 @@ export default function SignUp() {
               placeholder="Email"
               className="input-container"
               value={email}
+              style={{ color: "var(--main)" }}
               onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 
@@ -124,7 +152,10 @@ export default function SignUp() {
               Daftar
             </button>
 
-            <p className="text-sm text-center mt-4">
+            <p
+              className="text-sm text-center mt-4"
+              style={{ color: "var(--gray)" }}
+            >
               Sudah punya akun?{" "}
               <Link
                 to="/login"
@@ -135,6 +166,44 @@ export default function SignUp() {
               </Link>
             </p>
           </form>
+
+          <div className="flex items-center w-full my-4">
+            <div className="border-t border-gray-300 flex-grow"></div>
+            <span className="mx-4 text-gray-500">ATAU</span>
+            <div className="border-t border-gray-300 flex-grow"></div>
+          </div>
+
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <div className="w-full">
+              <button
+                type="button"
+                onClick={() => {
+                  const googleLoginButton =
+                    document.querySelector('[role="button"]');
+                  if (googleLoginButton) {
+                    googleLoginButton.click();
+                  }
+                }}
+                className="btn-primary flex items-center justify-center gap-2 py-2.5 bg-[var(--button)] text-[var(--main)] font-helvetica text-[14px] border border-black hover:bg-[var(--main)] hover:text-[var(--button)] transition-colors"
+              >
+                <FcGoogle
+                  icon="flat-color-icons:google"
+                  width="22"
+                  height="22"
+                />
+                Masuk Dengan Google
+              </button>
+              <div className="hidden">
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => {
+                    dispatch(setError("Gagal Login dengan Google"));
+                  }}
+                  useOneTap
+                />
+              </div>
+            </div>
+          </GoogleOAuthProvider>
         </div>
       </div>
     </>

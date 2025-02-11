@@ -2,29 +2,54 @@
 
 :root {
   --main: #000000;
+
   --bg-color: #fdfeff;
   --text-color: #1f2937;
+
   --card-bg: #ffffff;
   --card-date-text: #6b7280;
   --card-content-text: #4b5563;
   --card-border-color: #e5e7eb;
+
   --modal-bg: #ffffff;
+
   --ql-toolbar-text: #000000;
+
   --searchbar-bg: #f1f3f4;
+
+  --button: #ffffff;
+
+  --black: #000000;
+  --gray: #6b7280;
 }
 
 html.dark {
   --main: #ffffff;
+
   --bg-color: #1f2937;
   --text-color: #fdfeff;
+
   --card-bg: #2d3748;
   --card-title-text: #ffffff;
   --card-date-text: #a0aec0;
   --card-content-text: #cbd5e0;
   --card-border-color: #2d3748;
+
   --modal-bg: #1f2937;
+
   --ql-toolbar-text: #e2e8f0;
-  --searchbar-bg: #000000;
+
+  --searchbar-bg: #0e0e0e;
+
+  --button: #0e0e0e;
+
+  --black: #000000;
+  --gray: #bebebe;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 0px; /* Disable Scrollbar */
 }
 
 @tailwind base;

@@ -15,11 +15,13 @@ import {
 import { resetForm } from "../../store/actions/signUp.action";
 import { useSpring, animated } from "@react-spring/web";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { useEffect } from "react";
 
 function Login() {
   const { email, password, error, isLoading } = useSelector(
     (state) => state.loginReducer
   );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -85,6 +87,19 @@ function Login() {
     dispatch(resetForm());
   };
 
+  useEffect(() => {
+    const checkForToken = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/dashboard");
+      } else {
+        navigate("/login");
+      }
+    };
+
+    checkForToken();
+  }, [dispatch, navigate]);
+
   return (
     <>
       <animated.div
@@ -96,9 +111,14 @@ function Login() {
       <Navbar />
 
       <div className="flex items-center justify-center my-[10vh]">
-        <div className="w-96 border rounded bg-white px-7 py-10">
+        <div
+          className="w-96 rounded shadow-2xl px-7 py-10"
+          style={{ backgroundColor: "var(--bg-color)" }}
+        >
           <form onSubmit={handleLogin}>
-            <h4 className="text-2xl mb-7">Masuk</h4>
+            <h4 className="text-2xl mb-7" style={{ color: "var(--main)" }}>
+              Masuk
+            </h4>
 
             <input
               type="text"
@@ -106,6 +126,7 @@ function Login() {
               placeholder="Email"
               className="input-container"
               value={email}
+              style={{ color: "var(--main)" }}
               onChange={(e) => dispatch(setEmail(e.target.value))}
             />
 
@@ -130,7 +151,10 @@ function Login() {
               Masuk
             </button>
 
-            <p className="text-sm text-center mt-4">
+            <p
+              className="text-sm text-center mt-4"
+              style={{ color: "var(--main)" }}
+            >
               Belum punya akun?{" "}
               <Link
                 to="/signup"
@@ -144,7 +168,9 @@ function Login() {
 
           <div className="flex items-center w-full my-4">
             <div className="border-t border-gray-300 flex-grow"></div>
-            <span className="mx-4 text-gray-500">ATAU</span>
+            <span className="mx-4 " style={{ color: "var(--gray)" }}>
+              ATAU
+            </span>
             <div className="border-t border-gray-300 flex-grow"></div>
           </div>
 
@@ -159,7 +185,7 @@ function Login() {
                     googleLoginButton.click();
                   }
                 }}
-                className="btn-primary flex items-center justify-center gap-2 py-2.5 bg-white text-black font-helvetica text-[14px] border border-black hover:bg-black hover:text-white transition-colors"
+                className="btn-primary flex items-center justify-center gap-2 py-2.5 bg-[var(--button)] text-[var(--main)] font-helvetica text-[14px] border border-black hover:bg-[var(--main)] hover:text-[var(--button)] transition-colors"
               >
                 <FcGoogle
                   icon="flat-color-icons:google"
