@@ -13,14 +13,15 @@ export default function Searchbar({ value, onChange, onClearSearch }) {
       animate={{ width: targetWidth, opacity: 1 }}
       exit={{ width: "0px", opacity: 0 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="w-full md:w-80 flex items-center px-4 bg-slate-100 rounded-lg border shadow-md hover:shadow-lg focus-within:shadow-xl focus-within:border-blue-500 focus-within:outline-none"
+      className="w-full md:w-80 flex items-center px-4 bg-[var(--searchbar-bg)] rounded-lg hover:shadow-lg focus-within:shadow-xl focus-within:border-blue-500 focus-within:outline-none"
     >
       <FaMagnifyingGlass className="text-gray-400 cursor-pointer hover:text-black mr-3" />
 
       <input
         type="text"
         placeholder="Cari..."
-        className="w-full text-sm bg-transparent py-2 outline-none text-gray-700"
+        className="w-full text-sm bg-transparent py-2 outline-none "
+        style={{ color: "var(--main)" }}
         value={value}
         onChange={onChange}
       />

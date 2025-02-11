@@ -151,7 +151,7 @@ export default function AddEditNotes({ userInfo, noteData, type, onClose }) {
           <label className="input-label">TITLE</label>
           <input
             type="text"
-            className="text-2xl text-slate-950 outline-none"
+            className="text-2xl [var(--text-color)] outline-none bg-[var(--modal-bg)]"
             placeholder="Title"
             value={title}
             onChange={({ target }) => dispatch(setTitle(target.value))}

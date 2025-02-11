@@ -13,13 +13,22 @@ export const SaranCard = ({
 }) => {
   return (
     <div
-      className="border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out cursor-pointer"
+      className="border rounded p-4 bg-[var(--card-bg)] hover:shadow-xl transition-all ease-in-out cursor-pointer"
+      style={{ borderColor: "var(--card-border-color)" }}
       onClick={onClick}
     >
       <div className="flex items-center justify-between">
         <div>
-          <h6 className="text-sm font-medium">{title}</h6>
-          <span className="text-xs text-slate-500 ">
+          <h6
+            className="text-sm font-medium"
+            style={{ color: "var(--card-title-text)" }}
+          >
+            {title}
+          </h6>
+          <span
+            className="text-xs text-slate-500"
+            style={{ color: "var(--card-date-text)" }}
+          >
             {moment(date).format("DD MMM YYYY")}
           </span>
         </div>
@@ -31,6 +40,7 @@ export const SaranCard = ({
           display: "-webkit-box",
           WebkitLineClamp: 1,
           WebkitBoxOrient: "vertical",
+          color: "var(--card-content-text)",
         }}
         dangerouslySetInnerHTML={{ __html: content }}
       ></div>

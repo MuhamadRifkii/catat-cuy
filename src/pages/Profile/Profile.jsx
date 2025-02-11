@@ -138,34 +138,56 @@ export default function Profile() {
           className="inline-flex items-center gap-2 cursor-pointer"
           onClick={() => navigate(-1)}
         >
-          <IoArrowBack className="text-2xl text-gray-700" />
-          <h2 className="text-xl font-semibold text-gray-800">Profil</h2>
+          <IoArrowBack className="text-2xl" style={{ color: "var(--main)" }} />
+          <h2
+            className="text-xl font-semibold"
+            style={{ color: "var(--main)" }}
+          >
+            Profil
+          </h2>
         </div>
 
         {userInfo && (
-          <div className="w-24 h-24 md:w-32 md:h-32 mx-auto flex items-center justify-center my-4 rounded-full text-slate-950 font-medium bg-slate-100 text-2xl md:text-3xl">
-            {getInitials(userInfo?.name)}
-          </div>
+          <>
+            <div className="w-24 h-24 md:w-32 md:h-32 mx-auto flex items-center justify-center my-4 rounded-full text-slate-950 font-medium bg-slate-100 text-2xl md:text-3xl">
+              {getInitials(userInfo?.name)}
+            </div>
+            {!editMode && (
+              <p className="text-2xl mb-14 flex items-center justify-center">
+                {userInfo.name}
+              </p>
+            )}
+          </>
         )}
 
         <form onSubmit={handleSubmit}>
+          {editMode && (
+            <div className="mb-6">
+              <label
+                className="block text-sm font-medium"
+                style={{ color: "var(--main)" }}
+              >
+                Nama
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                readOnly={!editMode}
+                className={`w-full px-4 py-2.5 rounded-md ${
+                  !editMode
+                    ? "border border-white dark:border-gray-800 bg-white dark:bg-gray-800 cursor-not-allowed"
+                    : "border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700"
+                }`}
+              />
+            </div>
+          )}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-600">
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              readOnly={!editMode}
-              className={`w-full px-4 py-2.5 border border-gray-300 rounded-md ${
-                !editMode ? "bg-gray-100 cursor-not-allowed" : ""
-              }`}
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-600">
+            <label
+              className="block text-sm font-medium"
+              style={{ color: "var(--main)" }}
+            >
               Email
             </label>
             <input
@@ -174,28 +196,35 @@ export default function Profile() {
               value={formData.email}
               onChange={handleInputChange}
               readOnly={!editMode}
-              className={`w-full px-4 py-2.5 border border-gray-300 rounded-md ${
-                !editMode ? "bg-gray-100 cursor-not-allowed" : ""
+              className={`w-full px-4 py-2.5 border rounded-md ${
+                !editMode
+                  ? "border border-white dark:border-gray-800 bg-white dark:bg-gray-800 cursor-not-allowed"
+                  : "border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700"
               }`}
             />
           </div>
           <div className="flex justify-between items-center">
-            <label className="block text-sm font-medium text-gray-600">
+            <label
+              className="block text-sm font-medium"
+              style={{ color: "var(--main)" }}
+            >
               Password
             </label>
-            <button
-              type="button"
-              onClick={handleRequest}
-              className="text-red-500 text-sm font-medium"
-            >
-              Ganti Password
-            </button>
+            {editMode && (
+              <button
+                type="button"
+                onClick={handleRequest}
+                className="text-red-500 text-sm font-medium"
+              >
+                Ganti Password
+              </button>
+            )}
           </div>
           <input
             type="password"
             value="***********"
             readOnly
-            className="w-full px-4 py-2.5 mb-6 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
+            className="w-full px-4 py-2.5 mb-6 border border-white dark:border-gray-800 rounded-md bg-white dark:bg-gray-800 cursor-not-allowed"
           />
 
           {editMode && (
@@ -205,13 +234,13 @@ export default function Profile() {
                 onClick={() => setEditMode(false)}
                 className="flex-1 py-3 bg-gray-100 text-gray-600 rounded-md font-medium hover:bg-gray-200"
               >
-                Cancel
+                Batal
               </button>
               <button
                 type="submit"
                 className="flex-1 py-3 bg-primary text-white rounded-md font-medium hover:bg-blue-600"
               >
-                Save Changes
+                Simpan Perubahan
               </button>
             </div>
           )}
@@ -222,7 +251,7 @@ export default function Profile() {
             onClick={() => setEditMode(true)}
             className="w-full py-3 bg-primary text-white rounded-md font-medium hover:bg-blue-600"
           >
-            Edit Profile
+            Edit Profil
           </button>
         )}
       </div>
