@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Menu from "./Menu";
 import Searchbar from "./Searchbar";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
 
   const logout = () => {
     dispatch(resetForm());
-    localStorage.clear();
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
@@ -44,7 +44,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
   };
 
   return (
-    <div className="sticky top-0 z-50 h-14 bg-[var(--bg-color)] bottom-border flex items-center justify-between px-6 py-2 drop-shadow">
+    <div className="sticky top-0 z-50 h-14 bg-[var(--bg-color)] bottom-border flex items-center justify-between px-6 py-2 drop-shadow-xl">
       {token && (
         <div className="md:hidden flex items-center">
           <animated.div style={rotateSearch}>
@@ -75,9 +75,9 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
             !userInfo && "relative flex-1 text-center md:text-left"
           }`}
         >
-          <Link to="/" className="cursor-pointer">
+          <a href="/" className="cursor-pointer">
             <h2 style={{ color: "var(--main)" }}>Catat Cuy</h2>
-          </Link>
+          </a>
         </div>
       )}
 

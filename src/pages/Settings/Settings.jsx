@@ -1,14 +1,9 @@
 // Settings.jsx
 import { useSpring, animated } from "@react-spring/web";
 import Navbar from "../../component/Navbar";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setAllNotes,
-  setUserInfo,
-  setToast,
-} from "../../store/actions/home.action";
+import { setToast } from "../../store/actions/home.action";
 import Toast from "../../component/Toast";
 
 export default function Settings() {
@@ -16,7 +11,6 @@ export default function Settings() {
     (state) => state.homeReducer
   );
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const LoadingSpinner = useSpring({
@@ -28,11 +22,9 @@ export default function Settings() {
   const handleCloseToast = () =>
     dispatch(setToast({ isShown: false, message: "" }));
 
-  // Initialize the theme state using a lazy initializer that reads from localStorage.
   const [theme, setTheme] = useState(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
-      // Immediately update the <html> element based on the stored theme.
       if (storedTheme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
@@ -45,29 +37,6 @@ export default function Settings() {
     }
   });
 
-  // Update CSS custom properties whenever the theme changes.
-  // useEffect(() => {
-  //   const lightTheme = {
-  //     "--bg-color": "#fdfeff",
-  //     "--text-color": "#1f2937",
-  //     "--accent-color": "#3b82f6",
-  //     // Add more light theme variables if needed.
-  //   };
-
-  //   const darkTheme = {
-  //     "--bg-color": "#1f2937",
-  //     "--text-color": "#fdfeff",
-  //     "--accent-color": "#2563eb",
-  //     // Add more dark theme variables if needed.
-  //   };
-
-  //   const themeVars = theme === "dark" ? darkTheme : lightTheme;
-  //   for (const key in themeVars) {
-  //     document.documentElement.style.setProperty(key, themeVars[key]);
-  //   }
-  // }, [theme]);
-
-  // Function to toggle the theme.
   const toggleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
@@ -79,24 +48,6 @@ export default function Settings() {
       document.documentElement.classList.remove("dark");
     }
   };
-
-  useEffect(() => {
-    const loadUserAndNotes = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          await dispatch(setUserInfo(token, navigate));
-          await dispatch(setAllNotes(token));
-        } catch (error) {
-          console.error("Error loading data:", error);
-        }
-      } else {
-        navigate("/login");
-      }
-    };
-
-    loadUserAndNotes();
-  }, [dispatch, navigate]);
 
   return (
     <>

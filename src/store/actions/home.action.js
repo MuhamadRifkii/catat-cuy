@@ -19,7 +19,7 @@ export const setUserInfo = (token, navigate) => {
       });
 
       if (response.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("token");
         navigate("/login");
         return;
       }
@@ -55,7 +55,7 @@ export const updateUserInfo = (token, formData, navigate) => {
       });
 
       if (response.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("token");
         navigate("/login");
         return;
       }
@@ -90,7 +90,7 @@ export const updateUserInfo = (token, formData, navigate) => {
       );
 
       if (error.message.includes("401")) {
-        localStorage.clear();
+        localStorage.removeItem("token");
         navigate("/login");
       }
     } finally {
@@ -122,7 +122,7 @@ export const setAllNotes = (token) => {
     } catch (error) {
       console.error("Error fetching notes:", error);
       if (error.response?.status === 401) {
-        localStorage.clear();
+        localStorage.removeItem("token");
       }
     } finally {
       dispatch(setLoading(false));

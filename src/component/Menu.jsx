@@ -113,7 +113,7 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
                 className="text-sm text-red-500 w-full text-left mt-2"
                 onClick={logout}
               >
-                Logout
+                Keluar
               </button>
             </>
           ) : (
@@ -121,7 +121,7 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
               className="text-sm text-red-500 w-full text-left"
               onClick={logout}
             >
-              Logout
+              Keluar
             </button>
           )}
         </div>
