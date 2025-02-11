@@ -13,8 +13,9 @@ import RequestReset from "./pages/Reset/RequestReset";
 import Saran from "./pages/Saran/Saran";
 import Settings from "./pages/Settings/Settings";
 import ChangePassword from "./pages/Profile/ChangePassword";
-import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const routes = (
   <Router>
@@ -55,6 +56,7 @@ export default function App() {
     <div>
       {routes}
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
