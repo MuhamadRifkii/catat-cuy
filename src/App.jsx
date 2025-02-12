@@ -45,13 +45,20 @@ const routes = (
 
 export default function App() {
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
+    let storedTheme = localStorage.getItem("theme");
+    if (!storedTheme) {
+      storedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      localStorage.setItem("theme", storedTheme);
+    }
     if (storedTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
   }, []);
+
   return (
     <div>
       {routes}
