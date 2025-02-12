@@ -4,6 +4,7 @@ import { MdMenu, MdClose } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { Link, useLocation } from "react-router-dom";
+import ThemeToggle from "./Theme";
 
 export default function Menu({ userInfo, isSearchOpen, logout }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -99,14 +100,16 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
                 </Link>
               ) : null}
 
-              <Link to="/pengaturan" className="cursor-pointer">
+              {/* <Link to="/pengaturan" className="cursor-pointer">
                 <p
                   className="text-sm font-medium w-full text-left mt-2"
                   style={{ color: "var(--main)" }}
                 >
                   Pengaturan
                 </p>
-              </Link>
+              </Link> */}
+
+              <ThemeToggle />
 
               <div className="border-t border-gray-300 flex-grow mt-4"></div>
               <button
