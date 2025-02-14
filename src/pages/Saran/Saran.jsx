@@ -141,7 +141,12 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <EmptyNotes userInfo={userInfo} isLoading={isLoading} />
+          <EmptyNotes
+            userInfo={userInfo}
+            isLoading={isLoading}
+            filteredNotes={filteredNotes}
+            filter={filter}
+          />
         )}
       </div>
 
@@ -158,7 +163,7 @@ export default function Home() {
             );
           }}
         >
-          <MdAdd className="text-[32px] text-white" />
+          <MdAdd className="text-[32px]" style={{ color: "var(--button)" }} />
         </button>
       )}
 

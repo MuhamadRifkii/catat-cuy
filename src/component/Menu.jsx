@@ -120,12 +120,16 @@ export default function Menu({ userInfo, isSearchOpen, logout }) {
               </button>
             </>
           ) : (
-            <button
-              className="text-sm text-red-500 w-full text-left"
-              onClick={logout}
-            >
-              Keluar
-            </button>
+            <>
+              <ThemeToggle />
+              <div className="border-t border-gray-300 flex-grow mt-4"></div>
+              <button
+                className="text-sm text-red-500 w-full text-left mt-2"
+                onClick={logout}
+              >
+                Keluar
+              </button>
+            </>
           )}
         </div>
       )}

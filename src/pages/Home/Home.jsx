@@ -182,7 +182,12 @@ export default function Home() {
             </div>
           ))
         ) : (
-          <EmptyNotes userInfo={userInfo} isLoading={isLoading} />
+          <EmptyNotes
+            userInfo={userInfo}
+            isLoading={isLoading}
+            filteredNotes={filteredNotes}
+            filter={filter}
+          />
         )}
       </div>
 
