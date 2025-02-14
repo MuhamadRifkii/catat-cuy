@@ -18,9 +18,12 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
 
   const logout = () => {
     dispatch(resetForm());
-    dispatch(resetNotes());
     localStorage.removeItem("token");
     navigate("/login");
+
+    setTimeout(() => {
+      dispatch(resetNotes());
+    }, 100);
   };
 
   const onClearSearch = () => {
