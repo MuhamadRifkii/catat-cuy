@@ -23,6 +23,8 @@ const homeReducer = (state = initState, action) => {
       return { ...state, filter: action.payload };
     case actionTypes.SET_TOAST:
       return { ...state, toast: action.payload };
+    case actionTypes.RESETNOTES:
+      return { ...initState };
     default:
       return state;
   }

@@ -7,6 +7,10 @@ export const setLoading = (isLoading) => ({
   payload: isLoading,
 });
 
+export const resetNotes = () => ({
+  type: actionTypes.RESETNOTES,
+});
+
 export const setUserInfo = (token, navigate) => {
   return async (dispatch) => {
     dispatch(setLoading(true));

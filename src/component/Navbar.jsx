@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import Searchbar from "./Searchbar";
 import { useDispatch } from "react-redux";
 import { resetForm } from "../store/actions/login.action";
+import { resetNotes } from "../store/actions/home.action";
 import { MdClose, MdSearch } from "react-icons/md";
 import { useSpring, animated } from "@react-spring/web";
 import { AnimatePresence } from "framer-motion";
@@ -17,6 +18,7 @@ export default function Navbar({ token, userInfo, setFilter, filterValue }) {
 
   const logout = () => {
     dispatch(resetForm());
+    dispatch(resetNotes());
     localStorage.removeItem("token");
     navigate("/login");
   };
