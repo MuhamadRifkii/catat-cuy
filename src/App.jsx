@@ -44,20 +44,37 @@ const routes = (
 );
 
 export default function App() {
-  useEffect(() => {
-    let storedTheme = localStorage.getItem("theme");
-    if (!storedTheme) {
-      storedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-      localStorage.setItem("theme", storedTheme);
-    }
-    if (storedTheme === "dark") {
+useEffect(() => {
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const handleChange = (e) => {
+    const newTheme = e.matches ? "dark" : "light";
+    localStorage.setItem("theme", newTheme);
+    if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, []);
+  };
+
+  // Set initial theme
+  let storedTheme = localStorage.getItem("theme");
+  if (!storedTheme) {
+    storedTheme = mediaQuery.matches ? "dark" : "light";
+    localStorage.setItem("theme", storedTheme);
+  }
+  if (storedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+
+  mediaQuery.addEventListener("change", handleChange);
+
+  return () => {
+    mediaQuery.removeEventListener("change", handleChange);
+  };
+}, []);
 
   return (
     <div>
